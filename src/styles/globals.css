@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+
+    .menu-item {
+        @apply flex text-2xl items-center h-[50px] w-full justify-center lg:justify-normal hover:bg-gray-200 rounded-full cursor-pointer;
+    }
+
+}
