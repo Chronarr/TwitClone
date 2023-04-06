@@ -8,4 +8,8 @@
         @apply flex text-2xl items-center h-[50px] w-full justify-center lg:justify-normal hover:bg-gray-200 rounded-full cursor-pointer;
     }
 
+    .header-btn {
+        @apply flex font-semibold items-center h-full  justify-center  cursor-pointer;
+    }
+
 }

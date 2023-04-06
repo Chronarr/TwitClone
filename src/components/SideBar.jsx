@@ -4,7 +4,7 @@ import SideBarItem from '@/components/SideBarItem'
 
 export default function SideBar() {
     return (
-        <div className='relative w-[65px]  lg:w-[275px] px-2'>
+        <div className='fixed hidden w-[65px] sm:flex flex-col start h-full lg:w-[275px] p-2'>
             <div className='flex item-center h-[50px] w-[50px] rounded-full mb-2 hover:bg-gray-200 justify-center cursor-pointer'>
                 <img className='h-6 w-8 flex my-auto mx-auto' src="/Twitter-logo.svg.png" alt="" />
             </div>
@@ -28,7 +28,7 @@ export default function SideBar() {
                         <p className='text-sm font-bold'>Marc Lodberg</p>
                         <p className='text-sm text-gray-500'>@LodbergMarc89179</p>
                     </div>
-                    <BiDotsHorizontalRounded className='hidden lg:inline-grid'/>
+                    <BiDotsHorizontalRounded className='hidden lg:inline-grid' />
 
                 </div>
 
