@@ -22,13 +22,13 @@ export default function SideBar() {
             <div className="h-[50px] cursor-pointer inline-grid lg:hidden text-lg font-bold w-full bg-blue-400 text-white mt-6 hover:bg-blue-500 flex items-center justify-center rounded-full"><BiPlusCircle /></div>
 
             <div className='absolute bottom-0 w-full'>
-                <div className="menu-item mb-2 lg:px-4 lg:my-4 my-0 px-0 flex w-[50px] lg:w-full  h-[50px] lg:h-[65px] lg:justify-between justify-center">
+                <div className="menu-item mb-2 lg:px-4 lg:my-0 my-0 px-0 flex w-[50px] lg:w-[260px]  h-[50px] lg:h-[66px] lg:justify-between justify-center">
                     <img className='h-9 w-9 lg:h-11 lg:w-11 rounded-full object-cover' src="/hacker.jpg" alt="" />
-                    <div className="ml-3 hidden lg:flex flex-1 flex-col">
-                        <p className='text-sm font-bold'>Marc Lodberg</p>
-                        <p className='text-sm text-gray-500'>@LodbergMarc89179</p>
+                    <div className="ml-3 hidden lg:flex flex-col">
+                        <p className='text-sm font-bold truncate max-w-[135px]'>Marc Lodberg</p>
+                        <p className=' text-sm text-gray-500 truncate max-w-[135px]'>@LodbergMarc89179</p>
                     </div>
-                    <BiDotsHorizontalRounded className='hidden lg:inline-grid' />
+                    <BiDotsHorizontalRounded className='hidden min-w-8 lg:inline-grid' />
 
                 </div>
 
