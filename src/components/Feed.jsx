@@ -54,7 +54,7 @@ export default function Feed() {
         }
     ]
     return (
-        <div className='flex flex-col sm:ml-[65px] lg:ml-[275px] max-w-[600px] flex-grow bg-white border-l border-r h-screen'>
+        <div className='flex flex-col sm:ml-[65px] lg:ml-[275px] max-w-[600px] flex-grow bg-white border-l h-full'>
             <header className='sticky w-full h-28 border-b flex flex-col top-0 bg-opacity-60 z-50 bg-white border-gray-100'>
                 <div onClick={homeClick} className='cursor-pointer flex item-center h-1/2 w-full '>
                     <h2 className="text-xl font-semibold my-auto pl-4" >Home</h2>

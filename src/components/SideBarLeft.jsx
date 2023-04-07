@@ -2,9 +2,9 @@ import React from 'react'
 import { BiHomeAlt2, BiHash, BiBell, BiMessageDetail, BiBookmarks, BiUniversalAccess, BiBookReader, BiCollection, BiDotsHorizontalRounded, BiPlusCircle } from "react-icons/bi"
 import SideBarItem from '@/components/SideBarItem'
 
-export default function SideBar() {
+export default function SideBarLeft() {
     return (
-        <div className='fixed hidden w-[65px] sm:flex flex-col start h-full lg:w-[275px] p-2'>
+        <div className='fixed hidden w-[65px] sm:flex flex-col h-full xl:w-[275px] p-2'>
             <div className='flex item-center h-[50px] w-[50px] rounded-full mb-2 hover:bg-gray-200 justify-center cursor-pointer'>
                 <img className='h-6 w-8 flex my-auto mx-auto' src="/Twitter-logo.svg.png" alt="" />
             </div>
