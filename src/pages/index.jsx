@@ -4,7 +4,7 @@ import SideBarRight from '@/components/SideBarRight'
 import Head from 'next/head'
 
 
-export default function Home() {
+export default function Home({newsResult}) {
   return (
     <>
       <Head>
@@ -13,12 +13,21 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='w-full mx-auto min-h-screen  flex'>
+      <main className=' mx-auto min-h-screen justify-center flex'>
         <SideBarLeft />
         <Feed />
-        <SideBarRight />
+        <SideBarRight news={newsResult.articles} total={newsResult.totalResults} />
       </main>
 
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const newsResult = await fetch("https://saurav.tech/NewsAPI/top-headlines/category/business/us.json").then((res) => res.json());
+  return{
+    props:{
+      newsResult,
+    }
+  }
 }
