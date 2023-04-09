@@ -19,5 +19,7 @@ module.exports = {
   theme: {
     screens: newScreens,
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }

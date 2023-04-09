@@ -14,20 +14,15 @@ export default function NewsWidget({ news, total }) {
     }
 
     return (
-        <div className='w-full bg-gray-100 rounded-xl mt-4 p-4'>
-            <p className='text-lg font-bold'>News:</p>
-            {news.slice(showNews - 4, showNews).map((article) => (
+        <div className='w-full bg-gray-100 rounded-xl mt-4 py-4 '>
+            <div className='flex px-2 flex-row items-end justify-between'><p className='text-lg font-bold pl-1'>News:</p><p className=' text-sm'>{showNews - 4} - {showNews} of {total}</p></div>
+            {news.slice(0, showNews).map((article) => (
                 <News article={article} key={article.id} />
             ))}
             <div className='justify-between flex px-10'>
-                <button className='text-sky-500 hover:underline disabled:text-gray-600' onClick={() => dynamicNews(true, false)} disabled={showNews >= total}>{showNews >= total ? 'No more articles' : 'Next four..'}</button>
-                <button
-                    className='text-sky-500 hover:underline disabled:text-gray-500 disabled:hover:no-underline'
-                    onClick={() => dynamicNews(false, true)}
-                    disabled={showNews <= 4}
-                >
-                    Prev. News..
-                </button>
+                <button className='text-sky-500 hover:underline disabled:text-gray-500 disabled:hover:no-underline' onClick={() => dynamicNews(false, true)} disabled={showNews <= 4}> Less news.. </button>
+                <button className='text-sky-500 hover:underline disabled:text-gray-600' onClick={() => dynamicNews(true, false)} disabled={showNews >= total}>{showNews >= total ? 'No more articles' : 'More news..'}</button>
+
             </div>
         </div>
     );

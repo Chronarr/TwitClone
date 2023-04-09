@@ -7,8 +7,8 @@ export default function News({ article }) {
         router.push(link)
     }
     return (
-        <div className='flex my-2 cursor-pointer hover:underline hover:bg-gray-200' onClick={() => articleClick(article.url)}>
-            <p className='w-2/3'>{article.title}</p>
+        <div className='flex py-2 cursor-pointer hover:underline px-4 hover:bg-gray-200' onClick={() => articleClick(article.url)}>
+            <p className='w-2/3 line-clamp-3 leading-7 text-sm'>{article.title}</p>
             <img className='w-[86px] ml-2 h-[86px] object-cover rounded-lg' src={article.urlToImage} alt={" "}></img>
         </div>
     )
