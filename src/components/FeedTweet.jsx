@@ -1,13 +1,14 @@
 import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { BiImageAdd, BiPoll, BiSmile, BiCalendar, BiMap } from "react-icons/bi"
+import { useSession } from 'next-auth/react'
 
 export default function FeedTweet() {
-
+    const { data: session } = useSession();
     return (
         <div className='w-full border-b border-gray-200 min-h-36 mt-2 px-6 flex'>
             <div>
-                <img className='rounded-full object-cover h-12 w-12 cursor-pointer filter hover:saturate-50' src="/hacker.jpg" alt="" />
+                <img className='rounded-full object-cover h-12 w-12 cursor-pointer filter hover:saturate-50' src={session.user.image} alt="" />
             </div>
             <div className='flex-1'>
                 <div className='flex items-center min-h-[56px] w-full'>

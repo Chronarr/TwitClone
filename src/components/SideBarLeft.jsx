@@ -1,8 +1,10 @@
 import React from 'react'
 import { BiHomeAlt2, BiHash, BiBell, BiMessageDetail, BiBookmarks, BiUniversalAccess, BiBookReader, BiCollection, BiDotsHorizontalRounded, BiPlusCircle } from "react-icons/bi"
 import SideBarItem from '@/components/SideBarItem'
+import { signOut, useSession } from 'next-auth/react'
 
 export default function SideBarLeft() {
+    const { data: session } = useSession();
     return (
         <div className='sticky overflow-y-auto overflow-x-hidden top-0 w-[65px] sm:flex flex-col h-screen xl:w-[275px] p-2'>
             <div className='flex item-center h-[50px] w-[50px] rounded-full mb-2 hover:bg-gray-200 justify-center cursor-pointer'>
@@ -22,11 +24,11 @@ export default function SideBarLeft() {
             <button className="h-[50px] cursor-pointer inline-grid xl:hidden text-lg font-bold w-full mb-[58px] xl:mb-[66px] bg-blue-400 text-white mt-6 hover:bg-blue-500 flex items-center justify-center rounded-full"><BiPlusCircle /></button>
 
             <div className='absolute bottom-0 mb-2 flex w-full'>
-                <div className="menu-item mb-2 xl:px-4 xl:my-0 my-0 px-0 flex w-[50px] xl:w-[260px]  h-[50px] xl:h-[66px] xl:justify-between justify-center">
-                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover' src="/hacker.jpg" alt="" />
+                <div onClick={() => (signOut({ callbackUrl: "/auth/signin" }))} className="menu-item mb-2 xl:px-4 xl:my-0 my-0 px-0 flex w-[50px] xl:w-[260px]  h-[50px] xl:h-[66px] xl:justify-between justify-center">
+                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover' src={session.user.image} alt="" />
                     <div className="ml-3 hidden xl:flex flex-col">
-                        <p className='text-sm font-bold truncate max-w-[135px]'>Marc Lodberg</p>
-                        <p className=' text-sm text-gray-500 truncate max-w-[135px]'>@LodbergMarc89179</p>
+                        <p className='text-sm font-bold truncate max-w-[135px]'>{session.user.name}</p>
+                        <p className=' text-sm text-gray-500 truncate max-w-[135px]'>@{session.user.username}</p>
                     </div>
                     <BiDotsHorizontalRounded className='hidden min-w-8 xl:inline-grid' />
 

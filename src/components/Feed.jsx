@@ -53,7 +53,7 @@ export default function Feed() {
             blue: true
         },
         {
-            id: 1,
+            id: 4,
             name: "Mikas Holm Lodberg",
             userName: "supermandmhl",
             userImg: "/hacker.jpg",
@@ -67,7 +67,7 @@ export default function Feed() {
             blue: true
         },
         {
-            id: 2,
+            id: 5,
             name: "Allias Holm Lodberg",
             userName: "supermandahl",
             userImg: "/hacker.jpg",
@@ -81,7 +81,7 @@ export default function Feed() {
             blue: false
         },
         {
-            id: 3,
+            id: 6,
             name: "Villas Holm Lodberg",
             userName: "supermandvhl",
             userImg: "/hacker.jpg",
