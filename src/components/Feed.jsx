@@ -6,7 +6,7 @@ import Post from '@/components/Post';
 export default function Feed() {
     const router = useRouter();
     function homeClick() {
-        router.reload()
+        router.reload(router.asPath)
     }
 
     const posts = [
