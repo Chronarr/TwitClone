@@ -13,7 +13,7 @@ export default function SideBarLeft() {
                 <img className='h-6 w-8 flex my-auto mx-auto' src="/Twitter-logo.svg.png" alt="" />
             </div>
             <nav className='space-y-2'>
-                <SideBarItem text="Home" Icon={BiHomeAlt2} onClick={() => router.push("/")} />
+                <SideBarItem text="Home" Icon={BiHomeAlt2} />
                 <SideBarItem text="Explore" Icon={BiHash} />
                 <SideBarItem text="Notifications" Icon={BiBell} />
                 <SideBarItem text="Messages" Icon={BiMessageDetail} />

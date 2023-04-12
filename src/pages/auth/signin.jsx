@@ -11,7 +11,7 @@ export default function signin({ providers }) {
                 <p className='mb-2 text-xs'>This app was created for learning purposes, sorry Elon!</p>
                 {Object.values(providers).map((provider) => (
                     <div key={provider.id} className='w-[300px]'>
-                        <button onClick={() => signIn(provider.id, { callbackUrl: "/" })} className='w-full h-10 border hover:bg-gray-200 transition-colors border-gray-400 mt-6 rounded-full text-center font-semibold'>Sign in with {provider.name}</button>
+                        <button onClick={() => signIn(provider.id, { callbackUrl: "/auth/login" })} className='w-full h-10 border hover:bg-gray-200 transition-colors border-gray-400 mt-6 rounded-full text-center font-semibold'>Sign in with {provider.name}</button>
                     </div>
                 ))}
             </div>

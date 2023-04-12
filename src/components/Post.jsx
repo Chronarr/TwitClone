@@ -48,7 +48,7 @@ export default function Post({ post }) {
             <div className='text-gray-500 h-6 w-6 rounded-full cursor-pointer hover:bg-sky-100 group p-1'><BiDotsHorizontalRounded className='group-hover:text-sky-500' /></div>
           </div>
           <p className='col-span-2'>{post.text}</p>
-          {post.img && <div className='flex flex-grow mt-4 min-w-0 max-h-[510px] '><img className='object-scale-down  rounded-2xl cursor-pointer' src={post.img} /></div>}
+          {post.postImg && <div className='flex flex-grow mt-4 min-w-0 max-h-[510px] '><img className='object-scale-down  rounded-2xl cursor-pointer' src={post.postImg} /></div>}
         </div>
 
       </div>
