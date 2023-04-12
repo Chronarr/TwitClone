@@ -2,16 +2,18 @@ import React from 'react'
 import { BiHomeAlt2, BiHash, BiBell, BiMessageDetail, BiBookmarks, BiUniversalAccess, BiBookReader, BiCollection, BiDotsHorizontalRounded, BiPlusCircle } from "react-icons/bi"
 import SideBarItem from '@/components/SideBarItem'
 import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router';
 
 export default function SideBarLeft() {
     const { data: session } = useSession();
+    const router = useRouter();
     return (
         <div className='sticky overflow-y-auto overflow-x-hidden top-0 w-[65px] sm:flex flex-col h-screen xl:w-[275px] p-2'>
             <div className='flex item-center h-[50px] w-[50px] rounded-full mb-2 hover:bg-gray-200 justify-center cursor-pointer'>
                 <img className='h-6 w-8 flex my-auto mx-auto' src="/Twitter-logo.svg.png" alt="" />
             </div>
             <nav className='space-y-2'>
-                <SideBarItem text="Home" Icon={BiHomeAlt2} active />
+                <SideBarItem text="Home" Icon={BiHomeAlt2} onClick={() => router.push("/")} />
                 <SideBarItem text="Explore" Icon={BiHash} />
                 <SideBarItem text="Notifications" Icon={BiBell} />
                 <SideBarItem text="Messages" Icon={BiMessageDetail} />
