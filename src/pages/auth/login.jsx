@@ -5,7 +5,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
 
-export default function login() {
+export default function Login() {
     const { data: session, status } = useSession();
     const router = useRouter();
 
