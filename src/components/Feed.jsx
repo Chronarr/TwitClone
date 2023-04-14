@@ -3,7 +3,7 @@ import React, { useReducer } from 'react'
 import FeedTweet from '@/components/FeedTweet';
 import Post from '@/components/Post';
 
-export default function Feed() {
+export default function Feed({ user }) {
     const router = useRouter();
     function homeClick() {
         router.reload(router.asPath)
@@ -111,7 +111,7 @@ export default function Feed() {
                     </div>
                 </div>
             </header>
-            <FeedTweet />
+            <FeedTweet user={user} />
             {posts.map((post) => (
                 <Post post={post} key={post.id} />
             ))}

@@ -1,14 +1,18 @@
 import SideBarLeft from '@/components/SideBarLeft'
 import SideBarRight from '@/components/SideBarRight'
 import Head from 'next/head'
-import { useSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import ProfilePage from '@/components/ProfilePage'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../../../firebase'
 
 
-export default function Home({ newsResult, followResult }) {
+export default function Home({ newsResult, followResult, userDB }) {
     const { data: session, status } = useSession();
     const router = useRouter();
+    console.log("userDB")
+    console.log(userDB)
     if (status === "loading") {
         <p>Loading....</p>
     }
@@ -34,13 +38,24 @@ export default function Home({ newsResult, followResult }) {
     if (status === "unauthenticated") { router.push("/auth/signin"); }
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
+    const session = await getSession(ctx);
+    let userDB;
     const newsResult = await fetch("https://saurav.tech/NewsAPI/top-headlines/category/business/us.json").then((res) => res.json());
     const followResult = await fetch("https://randomuser.me/api/?results=500&inc=name,login,picture").then((res) => res.json());
 
+    if (session) {
+        const docRef = doc(db, 'users', session.user.uid);
+        const docSnap = await getDoc(docRef);
+        userDB = docSnap.data();
+        console.log(userDB)
+    }
+
+
+
     return {
         props: {
-            newsResult, followResult,
+            newsResult, followResult, userDB: userDB || null,
         }
     }
 }

@@ -6,7 +6,7 @@ import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/fi
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
-export default function FeedTweet() {
+export default function FeedTweet({ user }) {
     const { data: session } = useSession();
     const [input, setInput] = useState("");
     const [fileRef, setFileRef] = useState(null);
@@ -60,6 +60,8 @@ export default function FeedTweet() {
 
     }
 
+
+
     return (
         <div className='w-full border-b border-gray-200 min-h-36 mt-2 px-6 relative flex'>
             {loading &&
@@ -73,7 +75,7 @@ export default function FeedTweet() {
                 </div>
             }
             <div>
-                <img className='rounded-full object-cover h-12 w-12 cursor-pointer filter hover:saturate-50' src={session.user.image} alt="" />
+                <img className='rounded-full object-cover h-12 w-12 cursor-pointer filter hover:saturate-50' src={user.userImg} alt="" />
             </div>
             <div className='flex-1'>
                 <div className='flex flex-col items-center min-h-[56px] w-full'>

@@ -4,7 +4,7 @@ import SideBarItem from '@/components/SideBarItem'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
 
-export default function SideBarLeft() {
+export default function SideBarLeft({ user }) {
     const { data: session } = useSession();
     const router = useRouter();
     return (
@@ -27,10 +27,10 @@ export default function SideBarLeft() {
 
             <div className='absolute bottom-0 mb-2 flex w-full'>
                 <div onClick={() => (signOut({ callbackUrl: "/auth/signin" }))} className="menu-item mb-2 xl:px-4 xl:my-0 my-0 px-0 flex w-[50px] xl:w-[260px]  h-[50px] xl:h-[66px] xl:justify-between justify-center">
-                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover' src={session.user.image} alt="" />
+                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover' src={user.userImg} alt="" />
                     <div className="ml-3 hidden xl:flex flex-col">
-                        <p className='text-sm font-bold truncate max-w-[135px]'>{session.user.name}</p>
-                        <p className=' text-sm text-gray-500 truncate max-w-[135px]'>@{session.user.username}</p>
+                        <p className='text-sm font-bold truncate max-w-[135px]'>{user.name}</p>
+                        <p className=' text-sm text-gray-500 truncate max-w-[135px]'>@{user.username}</p>
                     </div>
                     <BiDotsHorizontalRounded className='hidden min-w-8 xl:inline-grid' />
 

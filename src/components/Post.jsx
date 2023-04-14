@@ -1,6 +1,9 @@
+import { getDoc } from 'firebase/firestore'
 import React from 'react'
 import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiBarChart, BiUpload } from "react-icons/bi"
 import { BsDot } from "react-icons/bs"
+import { db } from '../../firebase'
+import { useSession } from 'next-auth/react'
 
 export default function Post({ post }) {
   function nFormat(number) {
@@ -29,6 +32,7 @@ export default function Post({ post }) {
     });
     return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
   }
+
 
   return (
     <div key={post.id} className='w-full  flex-col border-b border-gray-200 cursor-pointer hover:bg-gray-50'>
