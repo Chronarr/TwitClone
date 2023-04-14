@@ -18,7 +18,7 @@ export default function Feed({ user }) {
                 // Delay the update by 1000ms (1 second)
                 setTimeout(() => {
                     setPosts(snapshot.docs);
-                }, 1000);
+                }, 100);
             })
     }, [])
 

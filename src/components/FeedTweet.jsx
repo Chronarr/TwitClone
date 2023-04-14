@@ -13,7 +13,6 @@ export default function FeedTweet({ user }) {
     const [fileRef, setFileRef] = useState(null);
     const [loading, setLoading] = useState(false);
     const imgPickerRef = useRef(null);
-    const router = useRouter();
 
     const submitTweet = async () => {
 
@@ -25,13 +24,9 @@ export default function FeedTweet({ user }) {
             userid: session.user.uid,
             text: input,
             timeStamp: serverTimestamp(),
-            comments: 0,
-            commentArray: [],
-            reTweets: 0,
+            comments: [],
             uidReTweets: [],
-            likes: 0,
             uidLiked: [],
-            views: 0,
         })
 
 
