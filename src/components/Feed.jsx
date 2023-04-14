@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router'
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import FeedTweet from '@/components/FeedTweet';
 import Post from '@/components/Post';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export default function Feed({ user }) {
     const router = useRouter();
@@ -9,95 +11,20 @@ export default function Feed({ user }) {
         router.reload(router.asPath)
     }
 
-    const posts = [
-        {
-            id: 1,
-            name: "Mikas Holm Lodberg",
-            userName: "supermandmhl",
-            userImg: "/hacker.jpg",
-            postImg: "https://images.unsplash.com/photo-1524685794168-52985e79c1f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
-            text: "Jeg kan godt lide Minecraft!",
-            timeStamp: "2m",
-            comments: 3268,
-            reTweets: 10000,
-            likes: 225611,
-            views: 4500000,
-            blue: true
-        },
-        {
-            id: 2,
-            name: "Allias Holm Lodberg",
-            userName: "supermandahl",
-            userImg: "/hacker.jpg",
-            postImg: "",
-            text: "Jeg vil have en HUGE i pet simulator!!!!!!",
-            timeStamp: "Feb 21",
-            comments: 7513,
-            reTweets: 13051,
-            likes: 425611,
-            views: 1100000,
-            blue: false
-        },
-        {
-            id: 3,
-            name: "Villas Holm Lodberg",
-            userName: "supermandvhl",
-            userImg: "/hacker.jpg",
-            postImg: "https://images.unsplash.com/photo-1514313122851-5167c4fca5d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-            text: "Jeg har bowlet idag, det var sjovt. sammen med jonathan",
-            timeStamp: "4h",
-            comments: 268,
-            reTweets: 12000,
-            likes: 25611,
-            views: 500000,
-            blue: true
-        },
-        {
-            id: 4,
-            name: "Mikas Holm Lodberg",
-            userName: "supermandmhl",
-            userImg: "/hacker.jpg",
-            postImg: "https://images.unsplash.com/photo-1524685794168-52985e79c1f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
-            text: "Jeg kan godt lide Minecraft!",
-            timeStamp: "2m",
-            comments: 3268,
-            reTweets: 10000,
-            likes: 225611,
-            views: 4500000,
-            blue: true
-        },
-        {
-            id: 5,
-            name: "Allias Holm Lodberg",
-            userName: "supermandahl",
-            userImg: "/hacker.jpg",
-            postImg: "",
-            text: "Jeg vil have en HUGE i pet simulator!!!!!!",
-            timeStamp: "Feb 21",
-            comments: 7513,
-            reTweets: 13051,
-            likes: 425611,
-            views: 1100000,
-            blue: false
-        },
-        {
-            id: 6,
-            name: "Villas Holm Lodberg",
-            userName: "supermandvhl",
-            userImg: "/hacker.jpg",
-            postImg: "https://images.unsplash.com/photo-1514313122851-5167c4fca5d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-            text: "Jeg har bowlet idag, det var sjovt. sammen med jonathan",
-            timeStamp: "4h",
-            comments: 268,
-            reTweets: 12000,
-            likes: 25611,
-            views: 500000,
-            blue: true
-        }
-    ]
-    // sm:ml-[65px] lg:ml-[275px]
+    const [posts, setPosts] = useState([])
+    useEffect(() => {
+        onSnapshot(
+            query(collection(db, "posts"), orderBy("timeStamp", "desc")), (snapshot) => {
+                // Delay the update by 1000ms (1 second)
+                setTimeout(() => {
+                    setPosts(snapshot.docs);
+                }, 1000);
+            })
+    }, [])
+
+
     return (
-        <div className='flex flex-col min-w-[230px] max-w-[600px] overflow-y-auto bg-white border-l border-r  h-full'>
+        <div className='flex flex-col min-w-[230px] max-w-[600px] overflow-y-auto overflow-x-hidden bg-white border-l border-r  h-full'>
             <header className='sticky w-full h-28 border-b flex flex-col top-0 bg-opacity-80 backdrop-blur z-50 bg-white border-gray-100'>
                 <div onClick={homeClick} className='cursor-pointer flex item-center h-1/2 w-full '>
                     <h2 className="text-xl font-semibold my-auto pl-4" >Home</h2>

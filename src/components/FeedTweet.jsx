@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useRouter } from 'next/router';
 
 export default function FeedTweet({ user }) {
     const { data: session } = useSession();
@@ -12,6 +13,7 @@ export default function FeedTweet({ user }) {
     const [fileRef, setFileRef] = useState(null);
     const [loading, setLoading] = useState(false);
     const imgPickerRef = useRef(null);
+    const router = useRouter();
 
     const submitTweet = async () => {
 
@@ -24,14 +26,17 @@ export default function FeedTweet({ user }) {
             text: input,
             timeStamp: serverTimestamp(),
             comments: 0,
+            commentArray: [],
             reTweets: 0,
+            uidReTweets: [],
             likes: 0,
+            uidLiked: [],
             views: 0,
         })
 
 
         const imageRef = ref(storage, `posts/${docRef.id}/image`);
-        if (setFileRef) {
+        if (fileRef) {
             await uploadString(imageRef, fileRef, "data_url").then(async () => {
                 const downloadURL = await getDownloadURL(imageRef)
                 await updateDoc(doc(db, "posts", docRef.id), {
@@ -43,7 +48,7 @@ export default function FeedTweet({ user }) {
 
         setInput("")
         setLoading(false)
-        setFileRef("")
+        setFileRef(null)
     }
 
 

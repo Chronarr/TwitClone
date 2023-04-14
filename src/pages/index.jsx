@@ -11,7 +11,7 @@ import { db } from '../../firebase'
 export default function Home({ newsResult, followResult, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log(user)
+
   if (status === "loading") {
     <p>Loading....</p>
   }
@@ -28,7 +28,7 @@ export default function Home({ newsResult, followResult, user }) {
         <main className=' mx-auto min-h-screen justify-center flex'>
           <SideBarLeft user={user} />
           <Feed user={user} />
-          <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
+          <SideBarRight nullnews={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
         </main>
 
       </>
@@ -47,7 +47,6 @@ export async function getServerSideProps(ctx) {
     const docRef = doc(db, 'users', session.user.uid);
     const docSnap = await getDoc(docRef);
     userDB = docSnap.data();
-    console.log(userDB)
   }
 
   return {
