@@ -28,7 +28,7 @@ export default function Home({ newsResult, followResult, user }) {
         <main className=' mx-auto min-h-screen justify-center flex'>
           <SideBarLeft user={user} />
           <Feed user={user} />
-          <SideBarRight nullnews={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
+          <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
         </main>
 
       </>
