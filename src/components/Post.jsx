@@ -1,16 +1,20 @@
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiBarChart, BiUpload } from "react-icons/bi"
+import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiUpload } from "react-icons/bi"
 import { BsDot } from "react-icons/bs"
-import { db } from '../../firebase'
+import { db, storage } from '../../firebase'
 import Moment from 'react-moment'
 import { useSession } from 'next-auth/react'
+import { deleteObject, ref } from 'firebase/storage'
+import { useRecoilState, } from 'recoil'
+import { modalState } from "../../atom/modalAtom.js"
 
 
 
 export default function Post({ post }) {
   const postData = post.data()
   const { data: session } = useSession();
+  const [open, setOpen] = useRecoilState(modalState);
 
   // function nFormat(number) {
   //   if (number > 5000) {
@@ -66,6 +70,20 @@ export default function Post({ post }) {
       })
     }
   }
+
+  async function deletePost() {
+
+    if (window.confirm("Are you sure?")) {
+      if (postData.userid === session.user.uid) {
+        await deleteDoc(doc(db, "posts", post.id))
+        if (postData.postImg) {
+          deleteObject(ref(storage, `posts/${post.id}/image`))
+        }
+      } else {
+        return
+      }
+    }
+  }
   return (
     <div key={post.id} className='w-full  flex-col border-b border-gray-200 cursor-pointer hover:bg-gray-50'>
       <div className='flex flex-row m-3'>
@@ -82,7 +100,7 @@ export default function Post({ post }) {
                 <Moment fromNow>{(postData.timeStamp.toDate() === "in a few seconds" ? "now" : postData.timeStamp.toDate())}</Moment>
               </p>}
             </div>
-            <div className='text-gray-500 h-6 w-6 rounded-full cursor-pointer hover:bg-sky-100 group p-1'><BiDotsHorizontalRounded className='group-hover:text-sky-500' /></div>
+            <div className='text-gray-500 h-6 w-6 rounded-full cursor-pointer hover:bg-sky-100 group p-1' onClick={deletePost}><BiDotsHorizontalRounded className='group-hover:text-sky-500' /></div>
           </div>
           <p className='col-span-2'>{postData.text}</p>
           {postData.postImg && <div className='flex flex-grow mt-4 min-w-0 max-h-[510px] '><img className='object-scale-down  rounded-2xl cursor-pointer' src={postData.postImg} /></div>}
@@ -90,7 +108,7 @@ export default function Post({ post }) {
 
       </div >
       <div className='w-[550px] mb-4 flex ml-16 pl-2'>
-        <div className='flex w-24  items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiMessageRounded className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.comments.length}</div>
+        <div className='flex w-24  items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={() => setOpen(!open)}><BiMessageRounded className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.comments.length}</div>
         <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiSync className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.uidReTweets.length}</div>
         {postData.uidLiked.includes(session.user.uid) ? <div className='flex w-28 items-center text-sm text-red-500 text-center group rounded-full' onClick={likePost} key={post.id}><BiHeart className='h-8 w-8 rounded-full group-hover:bg-red-100 p-2 mr-1' /> {postData.uidLiked.length}</div> : <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={likePost} key={post.id}><BiHeart className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.uidLiked.length}</div>}
         <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiUpload className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> </div>

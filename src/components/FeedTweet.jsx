@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { useRouter } from 'next/router';
+
 
 export default function FeedTweet({ user }) {
     const { data: session } = useSession();

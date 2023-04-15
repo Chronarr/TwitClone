@@ -6,11 +6,15 @@ import { useSession, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
+import CommentModal from '@/components/CommentModal'
+import { useRecoilState, } from 'recoil'
+import { modalState } from "../../atom/modalAtom.js"
 
 
 export default function Home({ newsResult, followResult, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [open, setOpen] = useRecoilState(modalState);
 
   if (status === "loading") {
     <p>Loading....</p>
@@ -25,10 +29,12 @@ export default function Home({ newsResult, followResult, user }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className=' mx-auto min-h-screen justify-center flex'>
+        <main className={`mx-auto min-h-screen ${open? "overflow-hidden" : ""} justify-center flex`}>
           <SideBarLeft user={user} />
           <Feed user={user} />
           <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
+
+          <CommentModal />
         </main>
 
       </>
