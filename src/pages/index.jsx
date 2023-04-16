@@ -29,12 +29,12 @@ export default function Home({ newsResult, followResult, user }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={`mx-auto min-h-screen ${open? "overflow-hidden" : ""} justify-center flex`}>
+        <main className={`mx-auto min-h-screen ${open ? "overflow-hidden" : ""} justify-center flex`}>
           <SideBarLeft user={user} />
           <Feed user={user} />
           <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
 
-          <CommentModal />
+          <CommentModal user={user} />
         </main>
 
       </>
