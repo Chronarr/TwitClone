@@ -21,6 +21,7 @@ export default function Login() {
             } else {
 
                 await setDoc(docRef, {
+                    uid: session.user.uid,
                     name: session.user.name,
                     username: session.user.username,
                     email: session.user.email,

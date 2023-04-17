@@ -67,10 +67,10 @@ export default function FeedTweet({ user }) {
             {loading &&
                 <div className="bg-gray-200 opacity-50 w-full h-full absolute flex inset-0 justify-center items-center z-10">
                     <div className="loader opacity-100">
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
+                        <div className="circle"></div>
                     </div>
                 </div>
             }

@@ -21,6 +21,7 @@ export default function Home({ newsResult, followResult, user }) {
   }
 
   if (status === "authenticated") {
+
     return (
       <>
         <Head>

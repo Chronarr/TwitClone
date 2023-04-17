@@ -22,8 +22,6 @@ export default function CommentModal({ user }) {
     const [loading, setLoading] = useState(false);
     const imgPickerRef = useRef(null);
 
-    console.log(postData);
-    console.log(postUser);
     function closeModal() {
         setOpen(false)
         setPostData({})

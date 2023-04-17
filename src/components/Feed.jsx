@@ -29,7 +29,7 @@ export default function Feed({ user }) {
 
 
     return (
-        <div className={`flex flex-col min-w-[230px] max-w-[600px] relative   bg-white border-l border-r  h-full`}>
+        <div className={`flex flex-col min-w-[230px] max-w-[600px] relative bg-white border-l border-r h-full`}>
             <div className='sticky top-0 w-full h-28 border-b bg-opacity-80 backdrop-blur z-30 bg-white border-gray-100'>
                 <div className='flex h-full flex-col'>
                     <div onClick={homeClick} className='cursor-pointer flex item-center h-1/2 w-full '>
