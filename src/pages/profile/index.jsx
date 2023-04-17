@@ -8,11 +8,9 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 
 
-export default function Home({ newsResult, followResult, userDB }) {
+export default function Home({ newsResult, followResult, user }) {
     const { data: session, status } = useSession();
     const router = useRouter();
-    console.log("userDB")
-    console.log(userDB)
     if (status === "loading") {
         <p>Loading....</p>
     }
@@ -27,8 +25,8 @@ export default function Home({ newsResult, followResult, userDB }) {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <main className=' mx-auto min-h-screen justify-center flex'>
-                    <SideBarLeft />
-                    <ProfilePage />
+                    <SideBarLeft user={user} />
+                    <ProfilePage user={user} />
                     <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
                 </main>
 
@@ -48,14 +46,12 @@ export async function getServerSideProps(ctx) {
         const docRef = doc(db, 'users', session.user.uid);
         const docSnap = await getDoc(docRef);
         userDB = docSnap.data();
-        console.log(userDB)
     }
-
-
 
     return {
         props: {
-            newsResult, followResult, userDB: userDB || null,
+            newsResult, followResult, user: userDB || null,
         }
     }
 }
+
