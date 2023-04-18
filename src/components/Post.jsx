@@ -10,6 +10,9 @@ import { useRecoilState, } from 'recoil'
 import { modalState } from "../../atom/modalAtom.js"
 import { postDataState } from "../../atom/modalPostDataAtom.js"
 import { postUserState } from "../../atom/modalPostUserAtom.js"
+import { postIdState } from '../../atom/modalPostIdAtom.js'
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+
 
 
 
@@ -19,8 +22,9 @@ export default function Post({ post }) {
   const [open, setOpen] = useRecoilState(modalState);
   const [modalPostData, setModalPostData] = useRecoilState(postDataState);
   const [modalpostUser, setModalPostUser] = useRecoilState(postUserState);
+  const [modalPostId, setModalPostId] = useRecoilState(postIdState);
   const [postUser, setPostUser] = useState(null); // initialize postUser to null
-
+  const [comments, setComments] = useState([])
 
   // function nFormat(number) {
   //   if (number > 5000) {
@@ -61,6 +65,15 @@ export default function Post({ post }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    onSnapshot(
+      query(collection(db, "posts", post.id, "comments"), orderBy("timeStamp", "desc")), (snapshot) => {
+        // Delay the update by 1000ms (1 second)
+
+        setComments(snapshot.docs);
+      })
+  }, [])
+
   async function likePost() {
     if (postData.uidLiked.includes(session.user.uid)) {
       const index = postData.uidLiked.indexOf(session.user.uid)
@@ -93,6 +106,7 @@ export default function Post({ post }) {
   function openModal() {
     setModalPostData(postData)
     setModalPostUser(postUser)
+    setModalPostId(post.id)
     setOpen(true)
   }
   return (
@@ -119,7 +133,7 @@ export default function Post({ post }) {
 
       </div >
       <div className='w-[550px] mb-4 flex ml-16 pl-2'>
-        <div className='flex w-24  items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={openModal}><BiMessageRounded className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.comments.length}</div>
+        <div className='flex w-24  items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={openModal}><BiMessageRounded className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {comments.length}</div>
         <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiSync className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.uidReTweets.length}</div>
         {postData.uidLiked.includes(session.user.uid) ? <div className='flex w-28 items-center text-sm text-red-500 text-center group rounded-full' onClick={likePost} key={post.id}><BiHeart className='h-8 w-8 rounded-full group-hover:bg-red-100 p-2 mr-1' /> {postData.uidLiked.length}</div> : <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={likePost} key={post.id}><BiHeart className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.uidLiked.length}</div>}
         <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiUpload className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> </div>

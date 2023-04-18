@@ -18,8 +18,8 @@ export default function ProfilePage({ user }) {
     }, [])
     console.log(window.location.pathname)
     return (
-        <div className="flex flex-col">
-            <div className={`flex flex-col min-w-[230px] w-[600px] max-w-[600px] relative  bg-white border-l border-r `}>
+        <div className="flex flex-col border-l border-r ">
+            <div className={`flex flex-col min-w-[230px] w-[600px] max-w-[600px] relative  bg-white `}>
                 <div onClick={() => { router.push("/") }} className='sticky top-0 w-full h-14 border-b bg-opacity-80 backdrop-blur z-30 bg-white border-gray-100'>
                     <div className='flex h-full items-center cursor-pointer'>
                         <div className="ml-4 flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-200">
@@ -32,7 +32,7 @@ export default function ProfilePage({ user }) {
                     </div>
                 </div>
             </div>
-            <div className={`flex flex-col min-w-[230px] sm:w-[600px] max-w-[600px] relative bg-white border-l border-r `}>
+            <div className={`flex flex-col min-w-[230px] sm:w-[600px] max-w-[600px] relative bg-white  `}>
                 <div>{user.bannerImg ? <img className="h-[199px] w-[599px]" src={user.bannerImg} /> : <div className="flex bg-slate-300 text-transparent aspect-auto min-h-0 min-w-0 select-none w-full h-[199px] ">.</div>}</div>
                 <div className="mx-4 mt-3">
                     <div className="flex relative overflow-x-clip h-16 max-h-16">
@@ -55,9 +55,13 @@ export default function ProfilePage({ user }) {
                     <div onClick={() => setActive("replies")} className={`cursor-pointer w-1/4 hover:bg-gray-200 h-16 flex justify-center`}><div className={`${active === "replies" && "font-bold border-b-4  border-blue-400"} h-full flex items-center`}>Replies</div></div>
                     <div onClick={() => setActive("media")} className={`cursor-pointer w-1/4 hover:bg-gray-200 h-16 flex justify-center`}><div className={`${active === "media" && "font-bold border-b-4  border-blue-400"} h-full flex items-center`}>Media</div></div>
                     <div onClick={() => setActive("likes")} className={`cursor-pointer w-1/4 hover:bg-gray-200 h-16 flex justify-center`}><div className={`${active === "likes" && "font-bold border-b-4  border-blue-400"} h-full flex items-center`}>Likes</div></div>
-
-
                 </div>
+            </div>
+            <div>
+                {active === "tweets" && <div>Tweets</div>}
+                {active === "replies" && <div>Comments?</div>}
+                {active === "media" && <div>Media</div>}
+                {active === "likes" && <div>Likes</div>}
             </div>
         </div>
 

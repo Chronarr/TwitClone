@@ -5,27 +5,80 @@ import Modal from "react-modal"
 import { BiX } from "react-icons/bi"
 import { postDataState } from "../../atom/modalPostDataAtom.js"
 import { postUserState } from "../../atom/modalPostUserAtom.js"
+import { postIdState } from '../../atom/modalPostIdAtom.js'
 import Moment from 'react-moment'
 import { BsDot } from "react-icons/bs"
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSession } from 'next-auth/react'
 import { BiImageAdd, BiPoll, BiSmile, BiCalendar, BiMap, BiTrash } from "react-icons/bi"
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { db, storage } from '../../firebase';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useRouter } from 'next/router.js'
 
 
 export default function CommentModal({ user }) {
     const [open, setOpen] = useRecoilState(modalState);
     const [postData, setPostData] = useRecoilState(postDataState);
     const [postUser, setPostUser] = useRecoilState(postUserState);
+    const [postId, setPostId] = useRecoilState(postIdState);
     const { data: session } = useSession();
     const [input, setInput] = useState("");
     const [fileRef, setFileRef] = useState(null);
     const [loading, setLoading] = useState(false);
     const imgPickerRef = useRef(null);
-
+    const router = useRouter();
     function closeModal() {
         setOpen(false)
         setPostData({})
         setPostUser({})
+    }
+
+    const submitComment = async () => {
+
+        if (loading) return;
+
+        setLoading(true)
+
+        const docRef = await addDoc(collection(db, "posts", postId, "comments"), {
+            userid: session.user.uid,
+            text: input,
+            timeStamp: serverTimestamp(),
+            uidLiked: [],
+            uidRetweet: []
+        })
+
+
+        const imageRef = ref(storage, `posts/${postId}/${docRef.id}/image`);
+        if (fileRef) {
+            await uploadString(imageRef, fileRef, "data_url").then(async () => {
+                const downloadURL = await getDownloadURL(imageRef)
+                await updateDoc(doc(db, "posts", docRef.id), {
+                    postImg: downloadURL
+                })
+            })
+
+        }
+
+        setInput("")
+        setLoading(false)
+        setFileRef(null)
+        closeModal()
+        router.push(`/posts/${postId}`)
+    }
+
+
+    const addImageToPost = (e) => {
+        const reader = new FileReader();
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0])
+        }
+
+        reader.onload = (readerEvent) => {
+            setFileRef(readerEvent.target.result)
+        }
+
+
     }
 
     return (
@@ -102,7 +155,7 @@ export default function CommentModal({ user }) {
                                         className='hidden'
                                         ref={imgPickerRef}
                                         accept="image/*"
-                                        onChange={""}
+                                        onChange={addImageToPost}
                                     />
                                 </div>
                                 <BiPoll className='text-sky-500 h-9 w-9 p-2 hidden sm:inline-grid rounded-full hover:bg-sky-100 cursor-pointer' />
@@ -112,7 +165,7 @@ export default function CommentModal({ user }) {
                             </div>
                             <div className='flex h-full item-center'>
                                 <p className='mt-3.5 mr-2 text-center'>{input.trim().length}/280</p>
-                                <button className='mr-2 rounded-full bg-sky-300 text-white w-20 h-8 my-auto pb-1 font-bold disabled:opacity-50' onClick={""} disabled={!input.trim()}>Reply</button>
+                                <button className='mr-2 rounded-full bg-sky-300 text-white w-20 h-8 my-auto pb-1 font-bold disabled:opacity-50' onClick={submitComment} disabled={!input.trim()}>Reply</button>
                             </div>
                         </div>
                     </div>
