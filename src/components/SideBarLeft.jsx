@@ -5,7 +5,6 @@ import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
 
 export default function SideBarLeft({ user }) {
-    console.log(user)
     return (
         <div className='sticky overflow-y-auto overflow-x-hidden top-0 w-[65px] sm:flex flex-col h-screen xl:w-[275px] p-2'>
             <div className='flex item-center h-[50px] w-[50px] rounded-full mb-2 hover:bg-gray-200 justify-center cursor-pointer'>

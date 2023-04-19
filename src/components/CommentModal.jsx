@@ -11,7 +11,7 @@ import { BsDot } from "react-icons/bs"
 import TextareaAutosize from 'react-textarea-autosize';
 import { useSession } from 'next-auth/react'
 import { BiImageAdd, BiPoll, BiSmile, BiCalendar, BiMap, BiTrash } from "react-icons/bi"
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useRouter } from 'next/router.js'
@@ -49,6 +49,11 @@ export default function CommentModal({ user }) {
         })
 
 
+        await updateDoc(doc(db, "users", session.user.uid), {
+            comments: arrayUnion(`${docRef.id} ${postId}`)
+        })
+
+
         const imageRef = ref(storage, `posts/${postId}/${docRef.id}/image`);
         if (fileRef) {
             await uploadString(imageRef, fileRef, "data_url").then(async () => {
@@ -63,7 +68,9 @@ export default function CommentModal({ user }) {
         setInput("")
         setLoading(false)
         setFileRef(null)
-        closeModal()
+        setPostData({})
+        setPostUser(postUser)
+        setOpen(false)
         router.push(`/posts/${postId}`)
     }
 
@@ -89,6 +96,7 @@ export default function CommentModal({ user }) {
                 style={{ overlay: { zIndex: 100 } }}
                 isOpen={open}
                 onRequestClose={closeModal}
+                ariaHideApp={false}
                 className="sm:max-w-2xl w-screen h-screen sm:w-[90%] sm:h-fit sm:absolute sm:top-24 sm:left-[50%] sm:translate-x-[-50%] bg-white border px-4 pt-4 border-gray-200 outline-none rounded-2xl shadow-xl overflow-hidden">
                 <div className='h-9 w-9 rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center' onClick={closeModal}>
                     <BiX className='h-7 w-7' />
@@ -119,10 +127,10 @@ export default function CommentModal({ user }) {
                     {loading &&
                         <div className="bg-gray-200 opacity-50 w-full h-full absolute flex inset-0 justify-center items-center z-10">
                             <div className="loader opacity-100">
-                                <div class="circle"></div>
-                                <div class="circle"></div>
-                                <div class="circle"></div>
-                                <div class="circle"></div>
+                                <div className="circle"></div>
+                                <div classclassName="circle"></div>
+                                <div classclassName="circle"></div>
+                                <div classclassName="circle"></div>
                             </div>
                         </div>
                     }
