@@ -2,15 +2,18 @@ import SideBarLeft from '@/components/SideBarLeft'
 import SideBarRight from '@/components/SideBarRight'
 import Head from 'next/head'
 import { getSession, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import ProfilePage from '@/components/ProfilePage'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
+import { useEffect, useState } from 'react'
 
 
-export default function Home({ newsResult, followResult, user }) {
+export default function Home({ newsResult, followResult, user, user2 }) {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { id } = router.query;
+
     if (status === "loading") {
         <p>Loading....</p>
     }
@@ -26,7 +29,7 @@ export default function Home({ newsResult, followResult, user }) {
                 </Head>
                 <main className=' mx-auto min-h-screen justify-center flex'>
                     <SideBarLeft user={user} />
-                    <ProfilePage user={user} />
+                    {id === session.user.uid ? <ProfilePage user={user} id={id} /> : <ProfilePage user={user2} id={id} />}
                     <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
                 </main>
 
@@ -38,7 +41,9 @@ export default function Home({ newsResult, followResult, user }) {
 
 export async function getServerSideProps(ctx) {
     const session = await getSession(ctx);
+    const { id } = ctx.query;
     let userDB;
+    let user2;
     const newsResult = await fetch("https://saurav.tech/NewsAPI/top-headlines/category/business/us.json").then((res) => res.json());
     const followResult = await fetch("https://randomuser.me/api/?results=500&inc=name,login,picture").then((res) => res.json());
 
@@ -46,11 +51,17 @@ export async function getServerSideProps(ctx) {
         const docRef = doc(db, 'users', session.user.uid);
         const docSnap = await getDoc(docRef);
         userDB = docSnap.data();
+
+    }
+    if (session.user.uid != id) {
+        const docRef2 = doc(db, 'users', id);
+        const docSnap2 = await getDoc(docRef2);
+        user2 = docSnap2.data();
     }
 
     return {
         props: {
-            newsResult, followResult, user: userDB || null,
+            newsResult, followResult, user: userDB, user2: user2 || null
         }
     }
 }

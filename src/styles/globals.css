@@ -5,7 +5,7 @@
 @layer components {
 
   .menu-item {
-    @apply flex text-2xl items-center h-[50px] w-full justify-center xl:justify-normal hover:bg-gray-200 rounded-full cursor-pointer transition duration-200 ease-out;
+    @apply flex text-2xl items-center h-[50px] w-full justify-center xl:justify-normal hover:bg-gray-200 rounded-full cursor-pointer transition duration-500 ease-out;
   }
 
   .header-btn {

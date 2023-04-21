@@ -7,6 +7,7 @@ import { db } from '../../firebase';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState, } from 'recoil'
 import { modalState } from "../../atom/modalAtom.js"
+import PostRenderer from './PostRenderer';
 
 export default function Feed({ user }) {
     const router = useRouter();
@@ -46,13 +47,7 @@ export default function Feed({ user }) {
                 </div>
             </div>
             <FeedTweet user={user} />
-            <AnimatePresence>
-                {posts.map((post) => (
-                    <motion.div key={post.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
-                        <Post post={post} key={post.id} />
-                    </motion.div>
-                ))}
-            </AnimatePresence>
+            <PostRenderer posts={posts} />
         </div>
     )
 }

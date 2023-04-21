@@ -1,4 +1,4 @@
-import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, updateDoc, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiUpload } from "react-icons/bi"
 import { BsDot } from "react-icons/bs"
@@ -27,6 +27,7 @@ export default function Post({ post }) {
   const [modalPostId, setModalPostId] = useRecoilState(postIdState);
   const [postUser, setPostUser] = useState(null); // initialize postUser to null
   const [comments, setComments] = useState([])
+  const [postMenu, setPostMenu] = useState(false)
 
   // function nFormat(number) {
   //   if (number > 5000) {
@@ -55,7 +56,6 @@ export default function Post({ post }) {
   //   return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
   // }
 
-
   useEffect(() => {
     async function fetchData() {
       const docRef = doc(db, "users", postData.userid);
@@ -69,9 +69,7 @@ export default function Post({ post }) {
 
   useEffect(() => {
     onSnapshot(
-      query(collection(db, "posts", post.id, "comments"), orderBy("timeStamp", "desc")), (snapshot) => {
-        // Delay the update by 1000ms (1 second)
-
+      query(collection(db, "comments"), where("post", "==", `${post.id}`), orderBy("timeStamp", "desc")), (snapshot) => {
         setComments(snapshot.docs);
       })
   }, [])
@@ -132,9 +130,17 @@ export default function Post({ post }) {
                 <Moment fromNow>{(postData.timeStamp.toDate() === "in a few seconds" ? "now" : postData.timeStamp.toDate())}</Moment>
               </p>}
             </div>
-            <div onClick={(e) => e.stopPropagation()}>
-              <div className='text-gray-500 h-6 w-6 rounded-full cursor-pointer hover:bg-sky-100 group p-1' onClick={deletePost}><BiDotsHorizontalRounded className='group-hover:text-sky-500' /></div>
-            </div>
+            {postUser && session.user.uid === postUser.uid && <div onClick={(e) => e.stopPropagation()}>
+              <div className='text-gray-500 h-6 w-6 rounded-full cursor-pointer hover:bg-sky-100 group p-1' onClick={() => { setPostMenu(!postMenu) }}><BiDotsHorizontalRounded className='group-hover:text-sky-500' /></div>
+              <div class={`${postMenu ? "inline" : "hidden"} absolute bg-white text-base w-44 z-50 list-none divide-y divide-gray-100 rounded shadow`}>
+                <ul class="py-1" aria-labelledby="dropdown">
+                  <li>
+                    <div onClick={deletePost} class="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Delete Post</div>
+                  </li>
+
+                </ul>
+              </div>
+            </div>}
           </div>
           <p className='col-span-2'>{postData.text}</p>
           {postData.postImg && <div className='flex flex-grow mt-4 min-w-0 max-h-[510px] '><img className='object-scale-down  rounded-2xl cursor-pointer' src={postData.postImg} /></div>}

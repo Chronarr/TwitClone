@@ -1,4 +1,4 @@
-import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, updateDoc, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiUpload } from "react-icons/bi"
 import { BsDot } from "react-icons/bs"
@@ -12,7 +12,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import PostPageHeader from './PostPageHeader'
 import PostPageTweet from './PostPageTweet'
 import { AnimatePresence, motion } from 'framer-motion'
-import CommentPage from './CommentPage'
+import CommentComp from './CommentComp'
 
 
 
@@ -49,9 +49,7 @@ export default function Post({ postId, user }) {
 
   useEffect(() => {
     onSnapshot(
-      query(collection(db, "posts", postId, "comments"), orderBy("timeStamp", "asc")), (snapshot) => {
-        // Delay the update by 1000ms (1 second)
-
+      query(collection(db, "comments"), where("post", "==", `${postId}`), orderBy("timeStamp", "desc")), (snapshot) => {
         setComments(snapshot.docs);
       })
   }, [])
@@ -128,7 +126,7 @@ export default function Post({ postId, user }) {
       <AnimatePresence>
         {comments.map((commentn) => (
           <motion.div key={commentn.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
-            <CommentPage postId={postId} commentn={commentn} key={commentn.id} />
+            <CommentComp postId={postId} commentn={commentn} key={commentn.id} />
           </motion.div>
         ))}
       </AnimatePresence>

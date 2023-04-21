@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
-import { BiImageAdd, BiPoll, BiSmile, BiCalendar, BiMap, BiTrash } from "react-icons/bi"
+import { BiImageAdd, BiTrash } from "react-icons/bi"
 import { useSession } from 'next-auth/react'
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+
 
 
 export default function FeedTweet({ user }) {
@@ -37,6 +38,7 @@ export default function FeedTweet({ user }) {
                 await updateDoc(doc(db, "posts", docRef.id), {
                     postImg: downloadURL
                 })
+
             })
 
         }
@@ -94,7 +96,7 @@ export default function FeedTweet({ user }) {
                     }
                 </div>
                 <div className='h-14 ml-2 flex  mt-2 min-w-full bottom-0 justify-between  border-t border-gray-200'>
-                    <div className='flex items-center'>
+                    <div className='flex items-center relative'>
                         <div onClick={() => imgPickerRef.current.click()}>
                             <BiImageAdd className='text-sky-500 h-9 w-9 p-2 rounded-full hover:bg-sky-100 cursor-pointer' />
                             <input
@@ -105,10 +107,7 @@ export default function FeedTweet({ user }) {
                                 onChange={addImageToPost}
                             />
                         </div>
-                        <BiPoll className='text-sky-500 h-9 w-9 p-2 hidden sm:inline-grid rounded-full hover:bg-sky-100 cursor-pointer' />
-                        <BiSmile className='text-sky-500 h-9 w-9 p-2 rounded-full hover:bg-sky-100 cursor-pointer' />
-                        <BiCalendar className='text-sky-500 h-9 w-9 p-2 rounded-full hidden sm:inline-grid hover:bg-sky-100 cursor-pointer' />
-                        <BiMap className='text-sky-500 h-9 w-9 p-2 rounded-full hover:bg-sky-100 cursor-pointer' />
+
                     </div>
                     <div className='flex h-full item-center'>
                         <p className='mt-3.5 mr-2 text-center'>{input.trim().length}/280</p>

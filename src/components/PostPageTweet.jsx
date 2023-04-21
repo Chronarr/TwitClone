@@ -19,8 +19,9 @@ export default function PostPageTweet({ user, postUser, postId }) {
 
         setLoading(true)
 
-        const docRef = await addDoc(collection(db, "posts", postId, "comments"), {
+        const docRef = await addDoc(collection(db, "comments"), {
             userid: session.user.uid,
+            post: postId,
             text: input,
             timeStamp: serverTimestamp(),
             uidReTweets: [],
@@ -28,15 +29,18 @@ export default function PostPageTweet({ user, postUser, postId }) {
         })
 
         await updateDoc(doc(db, "users", session.user.uid), {
-            comments: arrayUnion(`${docRef.id} ${postId}`)
+            comments: arrayUnion(`${docRef.id}`)
         })
 
         const imageRef = ref(storage, `posts/${docRef.id}/image`);
         if (fileRef) {
             await uploadString(imageRef, fileRef, "data_url").then(async () => {
                 const downloadURL = await getDownloadURL(imageRef)
-                await updateDoc(doc(db, "posts", docRef.id), {
+                await updateDoc(doc(db, "comments", docRef.id), {
                     postImg: downloadURL
+                })
+                await updateDoc(doc(db, "users", session.user.uid), {
+                    media: downloadURL
                 })
             })
 

@@ -40,17 +40,19 @@ export default function CommentModal({ user }) {
 
         setLoading(true)
 
-        const docRef = await addDoc(collection(db, "posts", postId, "comments"), {
+        const docRef = await addDoc(collection(db, "comments"), {
             userid: session.user.uid,
+            post: postId,
             text: input,
             timeStamp: serverTimestamp(),
             uidLiked: [],
-            uidRetweet: []
+            uidRetweet: [],
+
         })
 
 
         await updateDoc(doc(db, "users", session.user.uid), {
-            comments: arrayUnion(`${docRef.id} ${postId}`)
+            comments: arrayUnion(`${docRef.id}`)
         })
 
 
@@ -60,6 +62,9 @@ export default function CommentModal({ user }) {
                 const downloadURL = await getDownloadURL(imageRef)
                 await updateDoc(doc(db, "posts", docRef.id), {
                     postImg: downloadURL
+                })
+                await updateDoc(doc(db, "users", session.user.uid), {
+                    media: downloadURL
                 })
             })
 
