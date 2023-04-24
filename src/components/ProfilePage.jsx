@@ -4,10 +4,11 @@ import { BiArrowBack } from "react-icons/bi"
 import { db } from "../../firebase";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import Post from "./Post";
 import { AnimatePresence, motion } from "framer-motion";
 import PostRenderer from "./PostRenderer";
 import CommentComp from "./CommentComp";
+import { useRecoilState, } from 'recoil'
+import { modalState } from "../../atom/modalAtom.js"
 
 
 export default function ProfilePage({ user, id }) {
@@ -17,6 +18,7 @@ export default function ProfilePage({ user, id }) {
     const [postsLiked, setPostsLiked] = useState([]);
     const [active, setActive] = useState("tweets");
     const { data: session } = useSession();
+    const [open, setOpen] = useRecoilState(modalState);
 
     useEffect(() => {
         onSnapshot(
@@ -54,7 +56,9 @@ export default function ProfilePage({ user, id }) {
                         </div>
                         <div className='ml-4 cursor-pointer flex flex-col item-center h-full w-full '>
                             <h2 className="text-xl font-semibold my-auto pl-4" >{user.name}</h2>
-                            <p className="pl-4 text-sm font-semibold text-gray-500">{posts && posts.length} Tweets</p>
+                            {active === "tweets" && <p className="pl-4 text-sm font-semibold text-gray-500">{posts && posts.length} Tweets</p>}
+                            {active === "replies" && <p className="pl-4 text-sm font-semibold text-gray-500">{comments && comments.length} Comments</p>}
+                            {active === "likes" && <p className="pl-4 text-sm font-semibold text-gray-500">{postsLiked && postsLiked.length} Likes</p>}
                         </div>
                     </div>
                 </div>
@@ -66,7 +70,7 @@ export default function ProfilePage({ user, id }) {
                         <div className="h-36 w-36 absolute left-0 top-[-135%]">
                             <img className='rounded-full h-full w-full border-4 border-white transition delay-100 object-cover  cursor-pointer filter hover:saturate-50' src={user.userImg} alt="" />
                         </div>
-                        {session.user.uid === id ? <button className='absolute right-0 w-24 mx-1 bg-white text-sm font-bold rounded-full cursor-pointer hover:bg-gray-200 text-gray-800 border border-gray-300 h-8'>Edit profile</button> : ""}
+                        {session.user.uid === id ? <div onClick={() => setOpen(true)} className='leading-none absolute right-0 w-24 mx-1 bg-white text-sm font-bold rounded-full cursor-pointer hover:bg-gray-200 text-center pt-2 text-gray-800 border border-gray-300 h-8'>Edit profile</div> : ""}
                     </div>
                     <div>
                         <p className="text-xl font-bold">{user.name}</p>

@@ -1,0 +1,10 @@
+Get done:
+Edit profile modal? <-
+DM's + Messages page
+Follow function, and "all" + "following" on feed.
+Bookmarks? Eh?
+Twitter blue?
+Remove more?
+Notifs......?
+ - read section in db? with true/false?
+Aaand done!asfasf

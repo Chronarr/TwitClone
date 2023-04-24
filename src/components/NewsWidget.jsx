@@ -24,8 +24,8 @@ export default function NewsWidget({ news, total }) {
                 ))}
             </AnimatePresence>
             <div className='justify-between flex px-10'>
-                <button className='text-sky-500 hover:underline disabled:text-gray-500 disabled:hover:no-underline' onClick={() => dynamicNews(false, true)} disabled={showNews <= 4}> Less news.. </button>
-                <button className='text-sky-500 hover:underline disabled:text-gray-600' onClick={() => dynamicNews(true, false)} disabled={showNews >= total}>{showNews >= total ? 'No more articles' : 'More news..'}</button>
+                <button className='text-sky-500 hover:underline disabled:text-gray-500 disabled:hover:no-underline bg-transparent' onClick={() => dynamicNews(false, true)} disabled={showNews <= 4}> Less news.. </button>
+                <button className='text-sky-500 hover:underline bg-transparent disabled:text-gray-600' onClick={() => dynamicNews(true, false)} disabled={showNews >= total}>{showNews >= total ? 'No more articles' : 'More news..'}</button>
 
             </div>
         </div>

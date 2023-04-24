@@ -20,8 +20,8 @@ export default function FollowWidget({ followThis }) {
                 <Follow name={follow.name} login={follow.login} img={follow.picture} key={follow.login.username} />
             ))}
             <div className='justify-between flex px-10'>
-                <button className='text-sky-500 hover:underline disabled:text-gray-500 disabled:hover:no-underline' onClick={() => dynamicFollow(false, true)} disabled={showFollow <= 3} > Less .. </button>
-                <button className='text-sky-500 hover:underline disabled:text-gray-600' onClick={() => dynamicFollow(true, false)} disabled={showFollow >= 12}> More ..</button>
+                <button className='text-sky-500 bg-transparent hover:underline disabled:text-gray-500 disabled:hover:no-underline' onClick={() => dynamicFollow(false, true)} disabled={showFollow <= 3} > Less .. </button>
+                <button className='text-sky-500 bg-transparent hover:underline disabled:text-gray-600' onClick={() => dynamicFollow(true, false)} disabled={showFollow >= 12}> More ..</button>
 
             </div>
         </div>

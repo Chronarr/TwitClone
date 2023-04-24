@@ -38,10 +38,10 @@ export default function Feed({ user }) {
                     </div>
                     <div className='h-1/2 flex w-full justify-between'>
                         <div className="w-1/2 flex justify-center cursor-pointer transition-colors duration-300 hover:bg-gray-200">
-                            <button className='min-w-0 header-btn border-b-4 border-blue-500'>For you</button>
+                            <div className='min-w-0 header-btn border-b-4 border-blue-500'>For you</div>
                         </div>
                         <div className="w-1/2 flex justify-center cursor-pointer transition-colors duration-300 hover:bg-gray-200">
-                            <button className='header-btn text-gray-400'>Following</button>
+                            <div className='header-btn text-gray-400'>Following</div>
                         </div>
                     </div>
                 </div>

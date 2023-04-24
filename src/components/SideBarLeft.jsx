@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BiHomeAlt2, BiHash, BiBell, BiMessageDetail, BiBookmarks, BiUniversalAccess, BiBookReader, BiCollection, BiDotsHorizontalRounded, BiPlusCircle } from "react-icons/bi"
+import { BiHomeAlt2, BiUserCircle, BiBell, BiMessageDetail, BiBookmarks, BiUniversalAccess, BiBookReader, BiCollection, BiDotsHorizontalRounded, BiPlusCircle } from "react-icons/bi"
 import SideBarItem from '@/components/SideBarItem'
 import { signOut } from 'next-auth/react'
 
@@ -13,7 +13,6 @@ export default function SideBarLeft({ user }) {
             </div>
             <nav className='space-y-2'>
                 <SideBarItem text="Home" link="/" Icon={BiHomeAlt2} />
-                <SideBarItem text="Explore" link="explore" Icon={BiHash} />
                 <SideBarItem text="Notifications" link="notifications" Icon={BiBell} />
                 <SideBarItem text="Messages" link="messages" Icon={BiMessageDetail} />
                 <SideBarItem text="Bookmarks" link="bookmarks" Icon={BiBookmarks} />

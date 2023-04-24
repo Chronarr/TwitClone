@@ -111,7 +111,7 @@ export default function FeedTweet({ user }) {
                     </div>
                     <div className='flex h-full item-center'>
                         <p className='mt-3.5 mr-2 text-center'>{input.trim().length}/280</p>
-                        <button className='mr-2 rounded-full bg-sky-300 text-white w-20 h-8 my-auto pb-1 font-bold disabled:opacity-50' onClick={submitTweet} disabled={!input.trim()}>Tweet</button>
+                        <button className='leading-none mr-2 rounded-full bg-sky-300 text-white w-20 h-8 my-auto pb-1 font-bold disabled:opacity-50' onClick={submitTweet} disabled={!input.trim()}>Tweet</button>
                     </div>
                 </div>
             </div>

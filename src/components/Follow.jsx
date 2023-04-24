@@ -9,7 +9,7 @@ export default function Follow({ name, login, img }) {
                     <p className='text-xs text-gray-500 mt-0.5 truncate'>@{login.username}</p>
                 </div>
             </div>
-            <button className='w-20 mx-1 bg-black text-sm font-bold rounded-full cursor-pointer hover:bg-slate-800 text-white h-8'>Follow</button>
+            <div className='text-center pt-2 leading-none w-20 mx-1 bg-black text-sm font-bold rounded-full cursor-pointer hover:bg-slate-800 text-white h-8'>Follow</div>
         </div>
     )
 }

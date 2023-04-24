@@ -122,9 +122,9 @@ export default function Post({ post }) {
         </div>
         <div className='w-[515px] flex flex-col ml-3'>
           <div className='flex justify-between'>
-            <div className='flex items-center'>
-              {postUser && <p className='font-bold text-sm cursor-pointer hover:underline'>{postUser.name}</p>}
-              {postUser && <p className='text-gray-500 ml-1 text-sm cursor-pointer'>@{postUser.username}</p>}
+            <div className='flex items-center' onClick={(e) => e.stopPropagation()}>
+              {postUser && <p className='font-bold text-sm cursor-pointer hover:underline' onClick={() => router.push(`../profile/${postUser.uid}`)}>{postUser.name}</p>}
+              {postUser && <p className='text-gray-500 ml-1 text-sm cursor-pointer' onClick={() => router.push(`../profile/${postUser.uid}`)}>@{postUser.username}</p>}
               <BsDot className='text-gray-500' />
               {postData.timeStamp && <p className='text-gray-500 text-sm hover:underline cursor-pointer'>
                 <Moment fromNow>{(postData.timeStamp.toDate() === "in a few seconds" ? "now" : postData.timeStamp.toDate())}</Moment>

@@ -7,10 +7,14 @@ import ProfilePage from '@/components/ProfilePage'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import { useEffect, useState } from 'react'
+import ProfileEditModal from '@/components/ProfileEditModal'
+import { modalState } from "../../../atom/modalAtom.js"
+import { useRecoilState } from 'recoil'
 
 
 export default function Home({ newsResult, followResult, user, user2 }) {
     const { data: session, status } = useSession();
+    const [open, setOpen] = useRecoilState(modalState);
     const router = useRouter();
     const { id } = router.query;
 
@@ -31,6 +35,8 @@ export default function Home({ newsResult, followResult, user, user2 }) {
                     <SideBarLeft user={user} />
                     {id === session.user.uid ? <ProfilePage user={user} id={id} /> : <ProfilePage user={user2} id={id} />}
                     <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
+
+                    <ProfileEditModal user={user} />
                 </main>
 
             </>
