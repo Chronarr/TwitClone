@@ -31,7 +31,7 @@ export default function Home({ newsResult, followResult, user, user2 }) {
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <main className=' mx-auto min-h-screen justify-center flex'>
+                <main className={`mx-auto min-h-screen justify-center flex `}>
                     <SideBarLeft user={user} />
                     {id === session.user.uid ? <ProfilePage user={user} id={id} /> : <ProfilePage user={user2} id={id} />}
                     <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
