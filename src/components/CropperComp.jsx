@@ -11,10 +11,8 @@ export default function CropperComp({ image }) {
     const { data: session } = useSession();
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
-    const [fileRef, setFileRef] = useState(null);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
-    const [rotation, setRotation] = useState(0);
     const storage = getStorage();
 
 
@@ -40,7 +38,7 @@ export default function CropperComp({ image }) {
     }
 
     async function submitImage() {
-        const bannerRef = ref(storage, `images/${session.user.uid}/banner.jpeg`)
+        const bannerRef = ref(storage, `userimages/${session.user.uid}/banner.jpeg`)
         const response = await fetch(croppedImage)
         const blob = await response.blob();
         uploadBytes(bannerRef, blob).then((snapshot) => {

@@ -1,20 +1,22 @@
 import React, { useRef, useState } from "react";
-import Cropper from 'react-easy-crop';
 import CropperComp from "@/components/CropperComp"
-import { ref, uploadString } from "firebase/storage";
-import { storage } from "../../../firebase";
 import { BiImageAdd } from "react-icons/bi";
 
-export default function index() {
-    const [crop, setCrop] = useState({ x: 0, y: 0 });
-
-    let downloadURL;
+export default function CropImg() {
     const [fileRef, setFileRef] = useState(null);
-    const [loading, setLoading] = useState(false);
     const imgPickerRef = useRef(null);
+
     const handleImageUpload = async (e) => {
-        setFileRef(URL.createObjectURL(e.target.files[0]));
+        const reader = new FileReader();
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0])
+        }
+
+        reader.onload = (readerEvent) => {
+            setFileRef(readerEvent.target.result)
+        }
     }
+
     return (
         <div>
             <div className='flex items-center relative'>
