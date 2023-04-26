@@ -2,18 +2,27 @@ import { Slider } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import Cropper from 'react-easy-crop';
 import getCroppedImg from "./Crop";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebase";
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
+import { db, storage } from "../../firebase";
 import { useSession } from "next-auth/react";
+import { useRecoilState } from "recoil";
+import { modalCropStatus } from "../../atom/modalCropStatus";
+import { BiArrowBack, BiX } from "react-icons/bi";
+import { modalCroppedImage } from "../../atom/modalCroppedImage";
+import { doc, updateDoc } from "firebase/firestore";
 
 
-export default function CropperComp({ image }) {
+
+export default function CropperComp({ image, aspect, user, type }) {
+    const [picActive, setPicActive] = useRecoilState(modalCropStatus);
+    const [croppedImage3, setCroppedImage3] = useRecoilState(modalCroppedImage);
     const { data: session } = useSession();
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
     const storage = getStorage();
+    let CroppedImage2
 
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
@@ -22,14 +31,31 @@ export default function CropperComp({ image }) {
 
     async function onClose() {
 
+
         try {
             const croppedImage2 = await getCroppedImg(
                 image,
                 croppedAreaPixels,
-            );
-            setCroppedImage(croppedImage2)
 
-
+            )
+            const imageRef = ref(storage, `userimages/${user.uid}/${type}.jpeg`)
+            const response = await fetch(croppedImage2)
+            const blob = await response.blob();
+            await uploadBytes(imageRef, blob).then(async () => {
+                const downloadURL = await getDownloadURL(imageRef)
+                {
+                    type === "banner" ?
+                    await updateDoc(doc(db, "users", user.uid), {
+                        bannerImg: downloadURL
+                    })
+                    :
+                    await updateDoc(doc(db, "users", user.uid), {
+                        userImg: downloadURL
+                    })
+                }
+                setCroppedImage3(downloadURL)
+                setPicActive(false)
+            })
 
         } catch (e) {
             console.error(e);
@@ -37,25 +63,16 @@ export default function CropperComp({ image }) {
 
     }
 
-    async function submitImage() {
-        const bannerRef = ref(storage, `userimages/${session.user.uid}/banner.jpeg`)
-        const response = await fetch(croppedImage)
-        const blob = await response.blob();
-        uploadBytes(bannerRef, blob).then((snapshot) => {
-            console.log("Done!")
-        })
-    }
 
     return (
-        <div className="flex flex-col w-screen h-screen items-center justify-center">
-            <button
-                style={{
-                    display: image === null || croppedImage !== null ? "none" : "block",
-                }}
-                onClick={onClose}
-            >
-                Upload
-            </button>
+        <div className="flex flex-col w-full h-full items-center justify-center">
+            <div className='flex w-full h-8 mb-4 items-center'>
+                <div className='h-9 w-9 rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center' onClick={() => setPicActive(false)}>
+                    <BiArrowBack className='h-7 w-7' />
+                </div>
+                <p className='flex-1 text-2xl ml-10 font-bold'>Edit Media</p>
+                <button onClick={onClose} className='w-20 h-10 text-lg leading-none text rounded-full'>Apply</button>
+            </div>
             {!croppedImage &&
                 <div className=" relative h-[600px] w-[600px]">
                     <Cropper
@@ -66,30 +83,24 @@ export default function CropperComp({ image }) {
                         maxZoom={2}
                         zoomWithScroll={true}
                         showGrid={false}
-                        aspect={3 / 1}
+                        aspect={aspect}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
                     />
                 </div>}
-            <div className="flex flex-col w-[500px] ">
-                <label>Zoom
-                    <Slider
-                        value={zoom}
-                        min={1}
-                        max={3}
-                        step={0.1}
-                        aria-labelledby="zoom"
-                        onChange={(e, zoom) => setZoom(zoom)}
-                        className=""
-                    />
-                </label>
-            </div>
-            <div className="cropped-image-container">
-                {croppedImage && (
-                    <img className="h-[600px] w-auto" src={croppedImage} alt="cropped" />
-                )}
-                {croppedImage && <button onClick={submitImage}>close</button>}
+            <div className="flex flex-col my-4 w-[500px] ">
+
+                <Slider
+                    value={zoom}
+                    min={1}
+                    max={3}
+                    step={0.1}
+                    aria-labelledby="zoom"
+                    onChange={(e, zoom) => setZoom(zoom)}
+                    className=""
+                />
+
             </div>
         </div>
     )
