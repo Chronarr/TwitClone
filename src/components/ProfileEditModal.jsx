@@ -67,6 +67,7 @@ export default function ProfileEditModal({ user }) {
 
             })
         setOpen(false)
+        router.reload()
     }
 
 

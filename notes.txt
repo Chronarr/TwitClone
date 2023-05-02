@@ -1,6 +1,10 @@
 Get done:
-Edit profile modal? <-
+Edit profile modal? - ✓
 DM's + Messages page
+Revamp login page:
+ - First time login should yield:
+    - Set name, username, email, with value from google login¨
+    - Ability to set profile img and banner, else revert to stock img...
 Follow function, and "all" + "following" on feed.
 Bookmarks? Eh?
 Twitter blue?

@@ -26,6 +26,8 @@ export default function Login() {
                     username: session.user.username,
                     email: session.user.email,
                     userImg: session.user.image,
+                    followers: [],
+                    following: [],
                     bannerImg: "",
                     bio: "",
                     location: "",
