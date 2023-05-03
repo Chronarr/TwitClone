@@ -1,4 +1,4 @@
-import { Slider } from "@mui/material";
+import { Button, Slider } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import Cropper from 'react-easy-crop';
 import getCroppedImg from "./Crop";
@@ -45,13 +45,13 @@ export default function CropperComp({ image, aspect, user, type }) {
                 const downloadURL = await getDownloadURL(imageRef)
                 {
                     type === "banner" ?
-                    await updateDoc(doc(db, "users", user.uid), {
-                        bannerImg: downloadURL
-                    })
-                    :
-                    await updateDoc(doc(db, "users", user.uid), {
-                        userImg: downloadURL
-                    })
+                        await updateDoc(doc(db, "users", user.uid), {
+                            bannerImg: downloadURL
+                        })
+                        :
+                        await updateDoc(doc(db, "users", user.uid), {
+                            userImg: downloadURL
+                        })
                 }
                 setCroppedImage3(downloadURL)
                 setPicActive(false)
@@ -71,7 +71,7 @@ export default function CropperComp({ image, aspect, user, type }) {
                     <BiArrowBack className='h-7 w-7' />
                 </div>
                 <p className='flex-1 text-2xl ml-10 font-bold'>Edit Media</p>
-                <button onClick={onClose} className='w-20 h-10 text-lg leading-none text rounded-full'>Apply</button>
+                <Button variant="contained" onClick={onClose} className='w-20 h-10 text-lg leading-none text rounded-full transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100'>Apply</Button>
             </div>
             {!croppedImage &&
                 <div className=" relative h-[600px] w-[600px]">

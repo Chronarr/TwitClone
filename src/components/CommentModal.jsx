@@ -15,6 +15,7 @@ import { addDoc, arrayUnion, collection, doc, serverTimestamp, updateDoc } from 
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useRouter } from 'next/router.js'
+import { Button } from '@mui/material'
 
 
 export default function CommentModal({ user }) {
@@ -176,9 +177,13 @@ export default function CommentModal({ user }) {
                                 <BiCalendar className='text-sky-500 h-9 w-9 p-2 rounded-full hidden sm:inline-grid hover:bg-sky-100 cursor-pointer' />
                                 <BiMap className='text-sky-500 h-9 w-9 p-2 rounded-full hover:bg-sky-100 cursor-pointer' />
                             </div>
-                            <div className='flex h-full item-center'>
+                            <div className='flex h-full justify-center item-center'>
                                 <p className='mt-3.5 mr-2 text-center'>{input.trim().length}/280</p>
-                                <button className='mr-2 rounded-full bg-sky-300 text-white w-20 h-8 my-auto pb-1 font-bold disabled:opacity-50' onClick={submitComment} disabled={!input.trim()}>Reply</button>
+                                <Button variant="contained"
+                                    className='w-full h-10 border transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100  mt-6 rounded-full text-center font-semibold'
+                                    onClick={submitComment} disabled={!input.trim()}>
+                                    Reply
+                                </Button>
                             </div>
                         </div>
                     </div>

@@ -42,9 +42,6 @@ export default function ProfileEditModal({ user }) {
     const imgPickerRef2 = useRef(null);
 
     useEffect(() => {
-        console.log("UseEffect!")
-        console.log(croppedImage)
-        console.log(aspect)
         if (open) {
             if (aspect === 3 && croppedImage) {
                 setBanner(croppedImage)
@@ -67,6 +64,7 @@ export default function ProfileEditModal({ user }) {
 
             })
         setOpen(false)
+        router.replace(router.asPath);
     }
 
 

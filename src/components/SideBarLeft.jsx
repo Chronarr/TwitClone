@@ -13,12 +13,12 @@ export default function SideBarLeft({ user }) {
             </div>
             <nav className='space-y-2'>
                 <SideBarItem text="Home" link="/" Icon={BiHomeAlt2} />
-                <SideBarItem text="Notifications" link="notifications" Icon={BiBell} />
-                <SideBarItem text="Messages" link="messages" Icon={BiMessageDetail} />
-                <SideBarItem text="Bookmarks" link="bookmarks" Icon={BiBookmarks} />
-                <SideBarItem text="Twitter Blue" link="twitterblue" Icon={BiUniversalAccess} />
-                <SideBarItem text="Profile" link={`/profile/${user.uid}`} user={user} Icon={BiBookReader} />
-                <SideBarItem text="More" link="more" Icon={BiCollection} />
+                <SideBarItem text="Notifications" link="/notifications" Icon={BiBell} />
+                <SideBarItem text="Messages" link="/messages" Icon={BiMessageDetail} user={user} />
+                <SideBarItem text="Bookmarks" link="/bookmarks" Icon={BiBookmarks} />
+                <SideBarItem text="Twitter Blue" link="/twitterblue" Icon={BiUniversalAccess} />
+                <SideBarItem text="Profile" link={`../profile/${user.uid}`} user={user} Icon={BiBookReader} />
+                <SideBarItem text="More" link="/more" Icon={BiCollection} />
             </nav>
             <button className="h-[50px] cursor-pointer hidden xl:inline-grid text-lg font-bold w-full bg-blue-400 text-white mt-6 hover:bg-blue-500  items-center justify-center rounded-full">Tweet</button>
             <button className="h-[50px] cursor-pointer inline-grid xl:hidden text-lg font-bold w-full mb-[58px] xl:mb-[66px] bg-blue-400 text-white mt-6 hover:bg-blue-500 flex items-center justify-center rounded-full"><BiPlusCircle /></button>

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import ProfileEditModal from '@/components/ProfileEditModal'
 import { modalState } from "../../../atom/modalAtom.js"
 import { useRecoilState } from 'recoil'
+import NewDmModal from '@/components/NewDmModal'
 
 
 export default function Home({ newsResult, followResult, user, user2 }) {
@@ -23,6 +24,7 @@ export default function Home({ newsResult, followResult, user, user2 }) {
     }
 
     if (status === "authenticated") {
+
         return (
             <>
                 <Head>
@@ -37,6 +39,7 @@ export default function Home({ newsResult, followResult, user, user2 }) {
                     <SideBarRight news={newsResult.articles} total={newsResult.totalResults} followThis={followResult.results} />
 
                     <ProfileEditModal user={user} />
+                    <NewDmModal user={user} />
                 </main>
 
             </>
@@ -63,6 +66,8 @@ export async function getServerSideProps(ctx) {
         const docRef2 = doc(db, 'users', id);
         const docSnap2 = await getDoc(docRef2);
         user2 = docSnap2.data();
+    } else {
+        user2 = null
     }
 
     return {

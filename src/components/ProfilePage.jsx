@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDoc, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi"
 import { db } from "../../firebase";
@@ -9,6 +9,9 @@ import PostRenderer from "./PostRenderer";
 import CommentComp from "./CommentComp";
 import { useRecoilState, } from 'recoil'
 import { modalState } from "../../atom/modalAtom.js"
+import { modalState2 } from "../../atom/modalAtom2.js"
+import { dmUserState } from "../../atom/modaldmUserState";
+import { Button, ButtonGroup } from "@mui/material";
 
 
 export default function ProfilePage({ user, id }) {
@@ -19,6 +22,9 @@ export default function ProfilePage({ user, id }) {
     const [active, setActive] = useState("tweets");
     const { data: session } = useSession();
     const [open, setOpen] = useRecoilState(modalState);
+    const [open2, setOpen2] = useRecoilState(modalState2);
+    const [dmUser, setDmUser] = useRecoilState(dmUserState);
+    const [updater, setUpdater] = useState(false)
 
     useEffect(() => {
         onSnapshot(
@@ -44,6 +50,41 @@ export default function ProfilePage({ user, id }) {
 
     }, [])
 
+    function openDm() {
+        setDmUser(user)
+        setOpen2(true)
+    }
+
+
+    const follow = async () => {
+
+
+        if (user.followers.includes(session.user.uid)) {
+            console.log("1")
+            const index = user.followers.indexOf(session.user.uid)
+            user.followers.splice(index, 1)
+            await updateDoc(doc(db, "users", user.uid), {
+                followers: arrayRemove(session.user.uid),
+            })
+            console.log("2")
+            await updateDoc(doc(db, "users", session.user.uid), {
+                following: arrayRemove(user.uid)
+            })
+
+        } else {
+            console.log("3")
+            user.followers.push(session.user.uid)
+            await updateDoc(doc(db, "users", user.uid), {
+                followers: arrayUnion(session.user.uid),
+            })
+            console.log("4")
+            await updateDoc(doc(db, "users", session.user.uid), {
+                following: arrayUnion(user.uid)
+            })
+            router.replace(router.asPath)
+        }
+        console.log("5")
+    }
 
 
     return (
@@ -68,9 +109,20 @@ export default function ProfilePage({ user, id }) {
                 <div className="mx-4 mt-3">
                     <div className="flex relative overflow-x-clip h-16 max-h-16">
                         <div className="h-36 w-36 absolute left-0 top-[-135%]">
-                            <img className='rounded-full h-full w-full border-4 border-white transition delay-100 object-cover  cursor-pointer filter hover:saturate-50' src={user.userImg} alt="" />
+                            <img className='rounded-full h-full w-full border-4 border-white object-cover' src={user.userImg} alt="" />
                         </div>
-                        {session.user.uid === id ? <div onClick={() => setOpen(true)} className='leading-none absolute right-0 w-24 mx-1 bg-white text-sm font-bold rounded-full cursor-pointer hover:bg-gray-200 text-center pt-2 text-gray-800 border border-gray-300 h-8'>Edit profile</div> : ""}
+                        {session.user.uid === id ?
+
+                            <ButtonGroup className="absolute right-0 mx-1 rounded-lg h-8 " variant="contained" aria-label="outlined primary button group">
+                                <Button className="w-fit transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100">Delete Profile</Button>
+                                <Button className="w-fit transition-all duration-300 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 bg-size-200 bg-pos-0 hover:bg-pos-100" onClick={() => setOpen(true)}>Edit profile</Button>
+                            </ButtonGroup>
+                            :
+                            // bg-white text-sm font-bold rounded-full cursor-pointer hover:bg-gray-200 text-center pt-2 text-gray-800 border border-gray-300 h-8
+                            <ButtonGroup className="absolute right-0 mx-1 rounded-lg h-8" variant="contained" aria-label="outlined primary button group">
+                                <Button onClick={follow} className="w-fit transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100">{user.followers.includes(session.user.uid) ? "Unfollow" : "Follow"}</Button>
+                                <Button className="w-fit transition-all duration-300 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 bg-size-200 bg-pos-0 hover:bg-pos-100" onClick={openDm}>Send message</Button>
+                            </ButtonGroup>}
                     </div>
                     <div>
                         <p className="text-xl font-bold">{user.name}</p>

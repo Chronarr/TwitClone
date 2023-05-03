@@ -5,12 +5,14 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
 
+
 export default function Login() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
 
     if (status === "authenticated") {
+
         (async () => {
 
             const docRef = doc(db, "users", session.user.uid)
@@ -26,35 +28,44 @@ export default function Login() {
                     username: session.user.username,
                     email: session.user.email,
                     userImg: session.user.image,
+                    followers: [],
+                    following: [],
                     bannerImg: "",
                     bio: "",
                     location: "",
                     webPage: "",
                     birthDate: null,
-                    pro: false
+                    pro: false,
+                    newDm: false,
 
                 })
 
-                router.push("/");
+
+                router.push(`/profile/${session.user.uid}`)
             }
 
         })();
         return (
-            <>{loading &&
-                <div className="bg-gray-200 opacity-50 w-screen h-screen absolute flex inset-0 justify-center items-center z-10">
-                    <div className="loader opacity-100">
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                        <div class="circle"></div>
-                    </div>
-                </div>}
-            </>)
+            <>
+                {loading &&
+                    <div className="bg-gray-200 opacity-50 w-screen h-screen absolute flex inset-0 justify-center items-center z-10">
+
+                        <div className="loader opacity-100">
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                        </div>
+                    </div>}
+            </>
+        )
     }
+
     if (status === "loading") {
         return (
             <>{loading &&
                 <div className="bg-gray-200 opacity-50 w-screen h-screen absolute flex inset-0 justify-center items-center z-10">
+
                     <div className="loader opacity-100">
                         <div class="circle"></div>
                         <div class="circle"></div>
@@ -62,6 +73,7 @@ export default function Login() {
                         <div class="circle"></div>
                     </div>
                 </div>}
+
             </>)
     }
     if (status === "unauthenticated") {

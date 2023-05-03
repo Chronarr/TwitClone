@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { Button } from '@mui/material';
 
 
 
@@ -111,7 +112,7 @@ export default function FeedTweet({ user }) {
                     </div>
                     <div className='flex h-full item-center'>
                         <p className='mt-3.5 mr-2 text-center'>{input.trim().length}/280</p>
-                        <button className='leading-none mr-2 rounded-full bg-sky-300 text-white w-20 h-8 my-auto pb-1 font-bold disabled:opacity-50' onClick={submitTweet} disabled={!input.trim()}>Tweet</button>
+                        <button className='leading-none mr-2 rounded-full transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white w-20 h-8 my-auto text-center font-bold disabled:opacity-50' onClick={submitTweet} disabled={!input.trim()}>Tweet</button>
                     </div>
                 </div>
             </div>
