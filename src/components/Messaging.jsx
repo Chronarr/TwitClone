@@ -54,7 +54,7 @@ export default function Messaging({ user }) {
                 </div> */}
                 {conversations && <div>
                     {conversations.map((convo) => (
-                        <ConvoItem convo={convo} />
+                        <ConvoItem convo={convo} key={convo.id} />
                     ))}
                 </div>}
             </div>

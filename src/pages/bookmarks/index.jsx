@@ -11,7 +11,7 @@ import { modalState } from "../../../atom/modalAtom.js"
 import Bookmarks from '@/components/Bookmarks'
 
 
-export default function Bookmarks({ newsResult, followResult, user }) {
+export default function BookmarksIndex({ newsResult, followResult, user }) {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [open, setOpen] = useRecoilState(modalState);

@@ -69,7 +69,7 @@ export default function Conversation({ activeConvo, user }) {
             </div>
           </div>}
         <div className=' flex-1 border-b'>{messages.map((dmdata) => (
-          <MessageComp dmdata={dmdata} user={user} activeConvo={activeConvo} />
+          <MessageComp dmdata={dmdata} user={user} activeConvo={activeConvo} key={dmdata.id} />
         ))}</div>
         <div ref={scroller} />
 
