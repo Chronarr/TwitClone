@@ -10,7 +10,7 @@ import CommentComp from "./CommentComp";
 import { useRecoilState, } from 'recoil'
 import { modalState } from "../../atom/modalAtom.js"
 import { modalState2 } from "../../atom/modalAtom2.js"
-import { dmUserState } from '../../atom/modaldmUserState';
+import { dmUserState } from '../../atom/modalDmUserState';
 import { Button, ButtonGroup } from "@mui/material";
 
 

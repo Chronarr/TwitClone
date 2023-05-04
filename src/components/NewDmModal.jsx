@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import Modal from "react-modal"
 import { BiX } from 'react-icons/bi';
 import { Button, TextareaAutosize } from '@mui/material';
-import { dmUserState } from '../../atom/modaldmUserState';
+import { dmUserState } from '../../atom/modalDmUserState';
 import { useSession } from 'next-auth/react';
 import { addDoc, collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../firebase';
