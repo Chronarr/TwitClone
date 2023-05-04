@@ -3,7 +3,7 @@ import SideBarRight from '@/components/SideBarRight'
 import Head from 'next/head'
 import { useSession, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, } from 'firebase/firestore'
 import { db } from '../../../firebase'
 import CommentModal from '@/components/CommentModal'
 import { useRecoilState, } from 'recoil'
@@ -15,14 +15,6 @@ export default function BookmarksIndex({ newsResult, followResult, user }) {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [open, setOpen] = useRecoilState(modalState);
-
-    onSnapshot(
-        query(collection(db, "posts"), orderBy("timeStamp", "desc")), (snapshot) => {
-            // Delay the update by 1000ms (1 second)
-            setTimeout(() => {
-                setPosts(snapshot.docs);
-            }, 100);
-        })
 
     if (status === "loading") {
         <p>Loading....</p>
