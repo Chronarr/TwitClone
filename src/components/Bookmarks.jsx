@@ -18,7 +18,7 @@ export default function Bookmarks({ user }) {
     }, [user.bookmarks])
 
     return (
-        <div className={`flex flex-col w-fit border-l border-r ${open ? "overflow-hidden h-screen" : "h-full"}`}>
+        <div className={`flex flex-col w-fit border-l border-r h-fit`}>
             <div className={`flex flex-col min-w-[230px] w-[600px] max-w-[600px] relative  bg-white `}>
                 <div onClick={() => { router.push("/") }} className='sticky top-0 w-full h-14 border-b bg-opacity-80 backdrop-blur z-30 bg-white border-gray-100'>
                     <div className='flex h-full items-center cursor-pointer'>
