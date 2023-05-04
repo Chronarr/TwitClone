@@ -25,7 +25,7 @@ export default function SideBarLeft({ user }) {
 
             <div onClick={() => setSignOutMenu(!signOutMenu)} className='absolute bottom-0 mb-2 flex flex-col w-full space-y-2'>
                 <div onClick={() => (signOut({ callbackUrl: "/auth/signin" }))} className={`${signOutMenu ? "opacity-100" : "opacity-0"} transition-opacity duration-300 menu-item xl:px-4 xl:my-0 my-0 px-0 flex w-[50px] xl:w-[260px]  h-[50px] xl:h-[66px] xl:justify-between justify-center`}>
-                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover' src={user.userImg} alt="" />
+                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover filter grayscale blur-mb contrast-200' src={user.userImg} alt="" />
                     <div className="ml-3 mr-16 hidden xl:flex flex-col">
                         <p className='text-lg font-bold truncate max-w-[135px]'>Log out</p>
                     </div>
@@ -33,7 +33,7 @@ export default function SideBarLeft({ user }) {
 
                 </div>
                 <div className="menu-item mb-2 xl:px-4 xl:my-0 my-0 px-0 flex w-[50px] xl:w-[260px]  h-[50px] xl:h-[66px] xl:justify-between justify-center">
-                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover' src={user.userImg} alt="" />
+                    <img className='h-9 w-9 xl:h-11 xl:w-11 rounded-full object-cover  filter grayscale blur-mb contrast-200' src={user.userImg} alt="" />
                     <div className="ml-3 hidden xl:flex flex-col">
                         <p className='text-sm font-bold truncate max-w-[135px]'>{user.name}</p>
                         <p className=' text-sm text-gray-500 truncate max-w-[135px]'>@{user.username}</p>
