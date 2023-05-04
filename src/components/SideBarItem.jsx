@@ -4,7 +4,9 @@ import React from 'react'
 export default function SideBarItem({ text, link, Icon, active, user }) {
     const router = useRouter();
     function link2() {
-        router.push(link)
+        if (link) {
+            router.push(link)
+        }
     }
 
     return (

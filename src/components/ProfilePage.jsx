@@ -10,7 +10,7 @@ import CommentComp from "./CommentComp";
 import { useRecoilState, } from 'recoil'
 import { modalState } from "../../atom/modalAtom.js"
 import { modalState2 } from "../../atom/modalAtom2.js"
-import { dmUserState } from "../../atom/modaldmUserState";
+import { dmUserState } from '../../atom/modaldmUserState';
 import { Button, ButtonGroup } from "@mui/material";
 
 
@@ -60,30 +60,25 @@ export default function ProfilePage({ user, id }) {
 
 
         if (user.followers.includes(session.user.uid)) {
-            console.log("1")
             const index = user.followers.indexOf(session.user.uid)
             user.followers.splice(index, 1)
             await updateDoc(doc(db, "users", user.uid), {
                 followers: arrayRemove(session.user.uid),
             })
-            console.log("2")
             await updateDoc(doc(db, "users", session.user.uid), {
                 following: arrayRemove(user.uid)
             })
 
         } else {
-            console.log("3")
             user.followers.push(session.user.uid)
             await updateDoc(doc(db, "users", user.uid), {
                 followers: arrayUnion(session.user.uid),
             })
-            console.log("4")
             await updateDoc(doc(db, "users", session.user.uid), {
                 following: arrayUnion(user.uid)
             })
             router.replace(router.asPath)
         }
-        console.log("5")
     }
 
 
@@ -142,7 +137,7 @@ export default function ProfilePage({ user, id }) {
             </div>
             <div>
                 {active === "tweets" && <div>
-                    {posts && <PostRenderer posts={posts} />}
+                    {posts && <PostRenderer posts={posts} profilepage={true} />}
                 </div>}
                 {active === "replies" && <div>
                     <AnimatePresence>

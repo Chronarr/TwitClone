@@ -1,6 +1,6 @@
-import { deleteDoc, doc, getDoc, updateDoc, where } from 'firebase/firestore'
+import { arrayRemove, arrayUnion, deleteDoc, doc, getDoc, updateDoc, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiUpload } from "react-icons/bi"
+import { BiDotsHorizontalRounded, BiCheckShield, BiMessageRounded, BiSync, BiHeart, BiUpload, BiBookmarkPlus, BiBookmarkHeart } from "react-icons/bi"
 import { BsDot } from "react-icons/bs"
 import { db, storage } from '../../firebase'
 import Moment from 'react-moment'
@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 
 
 
-export default function Post({ post }) {
+export default function Post({ post, profilepage }) {
   const postData = post.data()
   const { data: session } = useSession();
   const router = useRouter();
@@ -26,6 +26,7 @@ export default function Post({ post }) {
   const [modalpostUser, setModalPostUser] = useRecoilState(postUserState);
   const [modalPostId, setModalPostId] = useRecoilState(postIdState);
   const [postUser, setPostUser] = useState(null); // initialize postUser to null
+  const [user, setUser] = useState({})
   const [comments, setComments] = useState([])
   const [postMenu, setPostMenu] = useState(false)
 
@@ -74,6 +75,16 @@ export default function Post({ post }) {
       })
   }, [])
 
+  useEffect(() => {
+    async function fetchData2() {
+      const docRef2 = doc(db, "users", session.user.uid);
+      const docSnap2 = await getDoc(docRef2);
+      const user2 = docSnap2.data();
+      setUser(user2); // update postUser state once data is fetched
+    }
+    fetchData2();
+  }, [])
+
   async function likePost() {
     if (postData.uidLiked.includes(session.user.uid)) {
       const index = postData.uidLiked.indexOf(session.user.uid)
@@ -87,6 +98,22 @@ export default function Post({ post }) {
         uidLiked: postData.uidLiked,
       })
     }
+  }
+
+  async function bookmark() {
+    if (user.bookmarks.includes(post.id)) {
+      const index2 = user.bookmarks.indexOf(post.id)
+      user.bookmarks.splice(index2, 1)
+      updateDoc(doc(db, "users", session.user.uid), {
+        bookmarks: arrayRemove(post.id),
+      })
+    } else {
+      user.bookmarks.push(post.id)
+      updateDoc(doc(db, "users", session.user.uid), {
+        bookmarks: arrayUnion(post.id),
+      })
+    }
+    router.replace(router.asPath);
   }
 
   async function deletePost() {
@@ -148,10 +175,10 @@ export default function Post({ post }) {
 
       </div >
       <div onClick={(e) => e.stopPropagation()} className='w-[550px] mb-4 flex ml-16 pl-2 pr-16'>
-        <div className='flex w-1/4  items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={openModal}><BiMessageRounded className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {comments.length}</div>
-        <div className='flex w-1/4 items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiSync className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.uidReTweets.length}</div>
         {postData.uidLiked.includes(session.user.uid) ? <div className='flex w-1/4 items-center text-sm text-red-500 text-center group rounded-full' onClick={likePost} key={post.id}><BiHeart className='h-8 w-8 rounded-full group-hover:bg-red-100 p-2 mr-1' /> {postData.uidLiked.length}</div> : <div className='flex w-28 items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={likePost} key={post.id}><BiHeart className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {postData.uidLiked.length}</div>}
-        <div className='flex w-1/4 items-center text-sm text-gray-500 text-center group hover:text-sky-500'><BiUpload className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> </div>
+        {!profilepage && <div className='flex w-1/4  items-center text-sm text-gray-500 text-center group hover:text-sky-500' onClick={openModal}><BiMessageRounded className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /> {comments.length}</div>}
+        {user.bookmarks && user.bookmarks.includes(post.id) ? <div onClick={bookmark} className={`text-sky-500 hover:text-blue-500 flex w-1/4 items-center text-sm text-center group`}><BiBookmarkHeart className='h-8 w-8 rounded-full group-hover:bg-blue-10 p-2 mr-1' /></div> : <div onClick={bookmark} className={`text-gray-500 hover:text-sky-500 flex w-1/4 items-center text-sm text-center group`}><BiBookmarkPlus className='h-8 w-8 rounded-full group-hover:bg-sky-100 p-2 mr-1' /></div>}
+
       </div>
     </div >
   )

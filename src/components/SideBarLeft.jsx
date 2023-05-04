@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { BiHomeAlt2, BiUserCircle, BiBell, BiMessageDetail, BiBookmarks, BiUniversalAccess, BiBookReader, BiCollection, BiDotsHorizontalRounded, BiPlusCircle } from "react-icons/bi"
 import SideBarItem from '@/components/SideBarItem'
 import { signOut } from 'next-auth/react'
+import { Button } from '@mui/material';
 
 
 export default function SideBarLeft({ user }) {
@@ -11,17 +12,15 @@ export default function SideBarLeft({ user }) {
             <div className='flex item-center h-[50px] w-[50px] rounded-full mb-2 hover:bg-gray-200 justify-center cursor-pointer'>
                 <img className='h-6 w-8 flex my-auto mx-auto' src="/Twitter-logo.svg.png" alt="" />
             </div>
-            <nav className='space-y-2'>
+            <nav className='space-y-2 mb-6'>
                 <SideBarItem text="Home" link="/" Icon={BiHomeAlt2} />
-                <SideBarItem text="Notifications" link="/notifications" Icon={BiBell} />
                 <SideBarItem text="Messages" link="/messages" Icon={BiMessageDetail} user={user} />
                 <SideBarItem text="Bookmarks" link="/bookmarks" Icon={BiBookmarks} />
-                <SideBarItem text="Twitter Blue" link="/twitterblue" Icon={BiUniversalAccess} />
                 <SideBarItem text="Profile" link={`../profile/${user.uid}`} user={user} Icon={BiBookReader} />
-                <SideBarItem text="More" link="/more" Icon={BiCollection} />
+                <SideBarItem text="More" Icon={BiCollection} />
             </nav>
-            <button className="h-[50px] cursor-pointer hidden xl:inline-grid text-lg font-bold w-full bg-blue-400 text-white mt-6 hover:bg-blue-500  items-center justify-center rounded-full">Tweet</button>
-            <button className="h-[50px] cursor-pointer inline-grid xl:hidden text-lg font-bold w-full mb-[58px] xl:mb-[66px] bg-blue-400 text-white mt-6 hover:bg-blue-500 flex items-center justify-center rounded-full"><BiPlusCircle /></button>
+            <button className="transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100 h-0 xl:h-[50px] cursor-pointer hidden xl:inline-grid text-lg font-bold w-full text-white mt-6 rounded-md">Tweet</button>
+            <button className="transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100 h-[50px] cursor-pointer xl:hidden text-lg font-bold w-full mb-[58px] xl:mb-[66px] text-white mt-6 flex items-center justify-center rounded-md"><BiPlusCircle /></button>
 
 
             <div onClick={() => setSignOutMenu(!signOutMenu)} className='absolute bottom-0 mb-2 flex flex-col w-full space-y-2'>

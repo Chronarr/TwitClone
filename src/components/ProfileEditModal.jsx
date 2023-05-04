@@ -11,6 +11,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db, storage } from '../../firebase.js'
 import { deleteObject, ref } from 'firebase/storage'
 import CropperComp from './CropperComp.jsx'
+import { Button } from '@mui/material'
 
 
 export default function ProfileEditModal({ user }) {
@@ -130,7 +131,7 @@ export default function ProfileEditModal({ user }) {
                                 <BiX className='h-7 w-7' />
                             </div>
                             <p className='flex-1 text-2xl ml-10 font-bold'>Edit profile</p>
-                            <button onClick={submitProfile} className='w-20 h-10 text-lg leading-none text rounded-full'>Save</button>
+                            <Button variant='contained' onClick={submitProfile} className='w-20 h-10 text-lg text'>Save</Button>
                         </div>
                         <div className={`flex flex-col min-w-[230px] sm:w-[600px] max-w-[600px] relative bg-white  `}>
                             <div>

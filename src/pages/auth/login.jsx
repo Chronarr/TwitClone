@@ -37,6 +37,8 @@ export default function Login() {
                     birthDate: null,
                     pro: false,
                     newDm: false,
+                    bookmarks: [],
+                    userType: [false, false, false]
 
                 })
 

@@ -15,7 +15,7 @@ export default function FollowWidget({ followThis }) {
 
     return (
         <div className='w-full bg-gray-100 sticky top-20 rounded-xl mt-4 py-4 px-1 '>
-            <p className='text-lg font-bold px-2'>Who to follow:</p>
+            <p className='text-lg font-bold px-2'>Who not to follow:</p>
             {followThis.slice(0, showFollow).map((follow) => (
                 <Follow name={follow.name} login={follow.login} img={follow.picture} key={follow.login.username} />
             ))}

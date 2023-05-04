@@ -13,7 +13,7 @@ export default function signin({ providers }) {
                 {Object.values(providers).map((provider) => (
                     <div key={provider.id} className='w-[300px]'>
                         <Button variant="contained" onClick={() => signIn(provider.id, { callbackUrl: "/auth/login" })}
-                            className='w-full h-10 border transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100  mt-6 rounded-full text-center font-semibold'>Sign in with {provider.name}</Button>
+                            className='w-full h-10 border transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100  mt-6 text-center font-semibold'>Sign in with {provider.name}</Button>
                     </div>
                 ))}
             </div>
